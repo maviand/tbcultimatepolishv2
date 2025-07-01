@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raid & Dungeon Redesigns - TBC Polish Addendum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-background-primary: #121010; /* Dark Charcoal */
+            --color-background-secondary: #211c1c; /* Softer Charcoal */
+            --color-text-primary: #F8F9FA; /* Off-White */
+            --color-text-secondary: #9E9E9E; /* Grey */
+            --color-accent-red: #D32F2F; /* Fel Red */
+            --color-accent-green: #00FF96; /* Fel Green */
+            --color-border: #424242;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--color-background-primary);
+            color: var(--color-text-primary);
+            background-image: url('https://www.transparenttextures.com/patterns/agsquare.png');
+        }
+        
+        .font-header {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.05em;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .card {
+            background-color: var(--color-background-secondary);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--color-border);
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover:not(.non-interactive) {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 20px rgba(211, 47, 47, 0.3);
+        }
+        
+        .section-header {
+            border-bottom: 2px solid var(--color-accent-red);
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px -10px var(--color-accent-red);
+        }
+
+        .header-icon {
+             width: 3rem; height: 3rem; margin-right: 1rem;
+             filter: drop-shadow(0 0 8px var(--color-accent-red));
+        }
+        .header-icon-large {
+             width: 5rem; height: 5rem; margin-bottom: 1.5rem;
+             filter: drop-shadow(0 0 12px rgba(211, 47, 47, 0.7));
+        }
+
+        .details-list li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .details-list li::before {
+            content: '🔥';
+            position: absolute;
+            left: 0;
+            top: 1px;
+            color: var(--color-accent-red);
+            font-size: 1.1em;
+        }
+
+        .boss-card {
+            background: linear-gradient(145deg, #2a2a2e, #1e1e1e);
+            border-left: 4px solid var(--color-accent-green);
+        }
+        .boss-card h4 {
+            color: var(--color-accent-green);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <main class="container mx-auto px-4 py-12 md:py-16">
+
+        <!-- Header Section -->
+        <section id="vision" class="mb-16 md:mb-24 text-center">
+            <div class="flex items-center justify-center">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="header-icon-large text-[var(--color-accent-red)]"><path d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v1.286a.75.75 0 00.75.75h2.5a.75.75 0 00.75-.75V6.01a7.22 7.22 0 012.25-.48c.32.004.635.02.94.051.306.032.59.076.86.133a.75.75 0 00.57-.912l-.433-1.298a.75.75 0 00-.912-.57zM18 3a9.735 9.735 0 013.25.555.75.75 0 01.5.707v1.286a.75.75 0 01-.75.75h-2.5a.75.75 0 01-.75-.75V6.01A7.22 7.22 0 0012.75 5.53c-.32.004-.635.02-.94.051-.306.032-.59.076-.86.133a.75.75 0 01-.57-.912l.433-1.298a.75.75 0 01.912-.57zM12 6.375a3.375 3.375 0 100 6.75 3.375 3.375 0 000-6.75zM21 9.333A9.707 9.707 0 0118 10.5a9.735 9.735 0 01-3.25-.555.75.75 0 01-.5-.707V8.026a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v1.286a.75.75 0 01-.75.75h-1.258a7.24 7.24 0 00.94-.051.75.75 0 01.707.5l.434 1.298a.75.75 0 01-.57.912zM6 10.5a9.707 9.707 0 01-2.25-1.167.75.75 0 01-.5-.707V7.338a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v1.286a.75.75 0 01-.75.75H5.008a7.24 7.24 0 00.94-.051.75.75 0 01.707.5l.434 1.298a.75.75 0 01-.57.912zM12 21.75a9.735 9.735 0 01-3.25-.555.75.75 0 01-.5-.707v-1.286a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v.98a7.22 7.22 0 002.25.48c.32-.004.635-.02.94-.051.306-.032-.59-.076.86-.133a.75.75 0 01.57.912l-.433 1.298a.75.75 0 01-.912.57 9.707 9.707 0 01-2.25 1.167z" /></svg>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 font-header"><span class="text-[var(--color-accent-red)]">Raid & Dungeon Redesigns:</span> Epic Encounters Reimagined</h1>
+            <p class="max-w-4xl mx-auto text-lg text-gray-300 leading-relaxed">
+                This design addendum overhauls The Burning Crusade's iconic raids and dungeons. By addressing community feedback on pacing, difficulty, and engagement, our goal is to transform memorable instances into truly unforgettable experiences. We will breathe new life into Mount Hyjal and Black Temple, introduce entirely new dungeons and raids, and polish existing instances to ensure a challenging, rewarding, and narratively cohesive endgame for all players.
+            </p>
+        </section>
+
+        <!-- NEW Philosophy Section -->
+        <section id="philosophy" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="section-header flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="header-icon">
+                    <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.74a3.001 3.001 0 01-2.598 4.502H4.644a3.001 3.001 0 01-2.598-4.502L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                </svg>
+                <h2 class="text-3xl md:text-4xl font-bold font-header"><span class="text-[var(--color-accent-red)]">Raid & Dungeon</span> Overhauls 🐉</h2>
+            </div>
+             <div class="card p-8">
+                <p class="text-center text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">The core philosophy for raid and dungeon overhauls is to transform these experiences from tedious grinds into dynamic, strategic, and narratively immersive encounters. This section details the key issues identified by the community and the proposed solutions to enhance pacing, engagement, and mechanical depth.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Problem Column -->
+                    <div class="bg-[var(--color-background-primary)] p-6 rounded-lg border border-[var(--color-border)]">
+                        <h3 class="font-bold text-2xl mb-4 text-red-500 font-header">The Problem: Tedium 😩</h3>
+                        <ul class="space-y-4 text-sm text-gray-300">
+                            <li>
+                                <strong class="text-base text-gray-100">Excessive Volume</strong><br>
+                                Community feedback highlights that raids like Black Temple and Mount Hyjal feature overwhelming and monotonous trash packs, diluting the tension between boss encounters.
+                            </li>
+                            <li>
+                                <strong class="text-base text-gray-100">Repetitive & Unengaging</strong><br>
+                                The original design of Mount Hyjal's 8 waves per boss is cited as particularly repetitive, lacking strategic variety and feeling more like a chore than a challenge.
+                            </li>
+                            <li>
+                                <strong class="text-base text-gray-100">Inconsistent Challenge</strong><br>
+                                Early bosses such as High Warlord Naj'entus and Supremus are often considered underwhelming "gear checks" rather than meaningful mechanical tests, creating a jarring difficulty curve.
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Solution Column -->
+                    <div class="bg-[var(--color-background-primary)] p-6 rounded-lg border border-[var(--color-border)]">
+                        <h3 class="font-bold text-2xl mb-4 text-[var(--color-accent-green)] font-header">The Solution: Dynamic Encounters ✨</h3>
+                        <ul class="space-y-4 text-sm text-gray-300">
+                             <li>
+                                <strong class="text-base text-gray-100">Strategic Reduction</strong><br>
+                                To improve pacing, trash pulls between bosses will be capped at 3-5 mechanically interesting packs, replacing long corridors of generic enemies with focused, strategic encounters.
+                            </li>
+                            <li>
+                                <strong class="text-base text-gray-100">Dynamic Waves</strong><br>
+                                Mount Hyjal's waves are reduced from 8 to 4 per boss. Each wave is redesigned with unique enemy compositions, objectives (e.g., escorting NPCs, destroying portals), and consequences for failure that can empower the upcoming boss.
+                            </li>
+                            <li>
+                                <strong class="text-base text-gray-100">Heroic Toggles</strong><br>
+                                Introduce optional "Heroic" or "Challenge" modes for all bosses. These can be activated to unlock more complex phases, tighter enrage timers, or additional mechanics, offering greater rewards and replayability for skilled guilds.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Mount Hyjal Section -->
+        <section id="mount-hyjal" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="section-header flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="header-icon"><path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.66 1.905H6.44l4.5 4.5c.944.945 2.56.276 2.56-1.06V4.06zM17.78 9.22a.75.75 0 10-1.06 1.06L18.94 12l-2.22 2.22a.75.75 0 101.06 1.06L20 13.06l2.22 2.22a.75.75 0 101.06-1.06L21.06 12l2.22-2.22a.75.75 0 10-1.06-1.06L20 10.94l-2.22-1.72z" /></svg>
+                <h2 class="text-3xl md:text-4xl font-bold font-header"><span class="text-[var(--color-accent-red)]">Mount Hyjal:</span> The Battle Reimagined 🌲</h2>
+            </div>
+            <div class="card p-8">
+                <p class="text-gray-300 leading-relaxed mb-6">The original design suffered from repetitive waves and simplistic mechanics. This redesign transforms Hyjal into an interactive, dynamic battleground, reducing the monotonous trash waves from 8 to 4 per boss and introducing dynamic environmental changes, deeper boss mechanics, and meaningful NPC integration.</p>
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Dynamic Waves & Environment -->
+                    <div>
+                        <h3 class="font-bold text-2xl mb-4 text-[var(--color-accent-green)] font-header">Dynamic Waves & Environment</h3>
+                        <div class="text-sm space-y-4 text-gray-300">
+                            <p>Each of the four waves per boss introduces unique objectives and enemy compositions. Success or failure directly impacts subsequent waves or the boss itself. The environment visibly changes as corruption recedes after each boss falls, enhancing the sense of progress.</p>
+                            <ul class="details-list pl-2 mt-2">
+                                <li><strong>Wave Objectives:</strong> Tasks like protecting scout NPCs, escorting Treant Protectors, or destroying Fel Ritual Circles replace simple kill quotas.</li>
+                                <li><strong>Consequences:</strong> Failing to cleanse Felfire Totems might empower Anetheron's fire abilities. Allowing a Siege Engine to be destroyed could grant Kaz'rogal a damage reduction buff.</li>
+                                <li><strong>Active NPCs:</strong> Jaina, Thrall, and Tyrande are no longer passive. Jaina provides Frost Nova barriers, Thrall uses Chain Lightning on adds, and Tyrande creates platforms of light during the Archimonde fight.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Boss Encounter Deep Dives -->
+                    <div class="space-y-4">
+                        <div class="boss-card p-4 rounded-md">
+                            <h4 class="font-bold text-lg font-header">Rage Winterchill</h4>
+                            <p class="text-sm text-gray-400">Gains a damage-absorbing shield phase that spawns Ice Elementals, a Berserk phase requiring defensive cooldowns, and a final phase where players must use Jaina's thaw zones to avoid being frozen solid.</p>
+                        </div>
+                        <div class="boss-card p-4 rounded-md">
+                            <h4 class="font-bold text-lg font-header">Anetheron</h4>
+                            <p class="text-sm text-gray-400">Links players with "Corruption Bonds" that force spreading, summons Fel Hounds that prioritize healers, and uses Fel Nova to force melee to use environmental cover.</p>
+                        </div>
+                         <div class="boss-card p-4 rounded-md">
+                            <h4 class="font-bold text-lg font-header">Archimonde</h4>
+                            <p class="text-sm text-gray-400">Mechanics are intensified. A new mid-phase is introduced where he attempts to drain Nordrassil, spawning adds from the roots that must be killed to prevent him gaining a powerful buff. Tyrande's Tears of Elune become more interactive.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Black Temple Section -->
+        <section id="black-temple" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="section-header flex items-center">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="header-icon"><path d="M12.75 3.75a.75.75 0 00-1.5 0v1.5h-1.5a.75.75 0 000 1.5h1.5v1.5a.75.75 0 001.5 0v-1.5h1.5a.75.75 0 000-1.5h-1.5v-1.5z" /><path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-2.25 2.75.75.75 0 001.5 0 1.5 1.5 0 011.5-1.5h8.25a1.5 1.5 0 011.5 1.5.75.75 0 001.5 0 3 3 0 00-2.25-2.75v-3A5.25 5.25 0 0012 1.5zm-3.75 7.5a3 3 0 003 3h1.5a3 3 0 003-3v-3a3.75 3.75 0 10-7.5 0v3z" clip-rule="evenodd" /></svg>
+                <h2 class="text-3xl md:text-4xl font-bold font-header"><span class="text-[var(--color-accent-red)]">Black Temple:</span> Sharpening the Sanctum 🏯</h2>
+            </div>
+            <div class="card p-8">
+                 <p class="text-gray-300 leading-relaxed mb-6">Long, monotonous trash runs and underwhelming early bosses diluted the tension of Illidan's fortress. This redesign sharpens the pacing by dividing the temple into four distinct wings, overhauling early boss mechanics, and weaving Illidan's presence throughout the entire instance to create a more cohesive and threatening atmosphere.</p>
+                 <div class="grid lg:grid-cols-2 gap-8">
+                     <!-- Architectural Redesign -->
+                    <div>
+                        <h3 class="font-bold text-2xl mb-4 text-[var(--color-accent-green)] font-header">Architectural & Pacing Redesign</h3>
+                        <div class="text-sm space-y-4 text-gray-300">
+                            <p>The temple is now divided into four thematic wings: Halls of Hatred, Forge of Corruption, Celestial Sepulcher, and Throne of the Betrayer. Each features unique environmental hazards and visuals.</p>
+                            <ul class="details-list pl-2 mt-2">
+                                <li><strong>Trash Pruning:</strong> Generic trash packs are significantly reduced and replaced with mini-events, patrolling elites, and mechanically interesting pulls that preview upcoming boss fights.</li>
+                                <li><strong>Illidan's Presence:</strong> Illidan's voice taunts the raid throughout the instance. Visual echoes or illusions appear briefly in corridors, making his presence felt long before the final confrontation.</li>
+                                <li><strong>Akama's Guidance:</strong> Akama and the Ashtongue play a more visible role, offering guidance via whispers or fighting alongside the raid in specific sections.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Boss Encounter Deep Dives -->
+                    <div class="space-y-4">
+                        <div class="boss-card p-4 rounded-md">
+                            <h4 class="font-bold text-lg font-header">High Warlord Naj'entus</h4>
+                            <p class="text-sm text-gray-400">Now a coordination test. Begins with a Fel Barrier that must be disabled by destroying orbs around the room. The fight includes a Poison Nova phase requiring movement and a final enrage with Hatred Imps that buff his speed.</p>
+                        </div>
+                        <div class="boss-card p-4 rounded-md">
+                            <h4 class="font-bold text-lg font-header">Supremus</h4>
+                            <p class="text-sm text-gray-400">No longer a simple gear check. The fight is an environmental awareness test with Lava Vents that force repositioning and a bouncing Doomfire Orb that must be kited away from healers.</p>
+                        </div>
+                        <div class="boss-card p-4 rounded-md">
+                            <h4 class="font-bold text-lg font-header">Shade of Akama</h4>
+                            <p class="text-sm text-gray-400">Mechanics are deepened to make freeing Akama feel earned. Players must first destroy Soul Orbs by killing linked Channelers before engaging the Shade, who now uses Spirit Chains to bind players to statues.</p>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- New Content Section -->
+        <section id="new-content" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="section-header flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="header-icon"><path fill-rule="evenodd" d="M9.315 7.588a.75.75 0 01.97-1.06l4.25 3.5a.75.75 0 010 1.06l-4.25 3.5a.75.75 0 11-.97-1.06l3.054-2.524-3.054-2.524zM12.75 1.5a.75.75 0 01.75.75v19.5a.75.75 0 01-1.5 0V2.25a.75.75 0 01.75-.75z" clip-rule="evenodd" /></svg>
+                <h2 class="text-3xl md:text-4xl font-bold font-header"><span class="text-[var(--color-accent-red)]">New & Updated Instances</span></h2>
+            </div>
+             <p class="text-center text-gray-300 max-w-4xl mx-auto mb-10 leading-relaxed">
+                To expand endgame variety and delve deeper into TBC's lore, new dungeons and raids are introduced, utilizing existing zones and the Caverns of Time to explore pivotal moments.
+            </p>
+            <div class="space-y-8">
+                <div class="card p-8">
+                    <h3 class="font-bold text-2xl mb-4 text-[var(--color-accent-green)] font-header">Caverns of Time: Echoes of Outland's Past ⏳</h3>
+                    <div class="grid md:grid-cols-3 gap-6 text-sm text-gray-300">
+                        <div class="bg-[var(--color-background-primary)] p-4 rounded-lg shadow-inner">
+                            <h4 class="font-semibold text-white mb-2">Wing 1: The Sundering of Draenor</h4>
+                            <p>Witness the cataclysmic event set in motion by Ner'zhul. Players navigate the chaos, battling Infinite Dragonflight agents seeking to worsen the destruction and facing an Echo of Ner'zhul himself near the Dark Portal.</p>
+                        </div>
+                        <div class="bg-[var(--color-background-primary)] p-4 rounded-lg shadow-inner">
+                             <h4 class="font-semibold text-white mb-2">Wing 2: The Wardens' Prison</h4>
+                            <p>Assist a younger Maiev Shadowsong in quelling an uprising within Illidan's prison. The Infinite Dragonflight seeks to free Illidan prematurely, forcing players to face a manifestation of the Betrayer's contained fury.</p>
+                        </div>
+                        <div class="bg-[var(--color-background-primary)] p-4 rounded-lg shadow-inner">
+                             <h4 class="font-semibold text-white mb-2">Wing 3: The Siege of Dalaran</h4>
+                            <p>Experience Kael'thas Sunstrider's desperate flight from Lordaeron and his controversial alliance with Lady Vashj. Players fight alongside these iconic characters to escape the city's ruins and fend off the Scourge.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                     <div class="card p-8">
+                        <h3 class="font-bold text-2xl mb-3 text-white font-header">Throne of the Elements (10-Player Raid) 🌪️</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">A new "side-tier" raid in Nagrand, comparable to Zul'Aman. Accessed via a swirling elemental vortex atop the Elemental Plateau, this raid challenges players to subdue Outland's enraged elemental lords—Gordawg (Earth), Aeros (Air), Karsius (Fire), and Tidalor (Water)—before they merge into a chaotic, multi-phase fusion boss, The Primal Heart.</p>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-2xl mb-3 text-white font-header">Netherwing Mines (Heroic Dungeon) 💎</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">Delve into the crystal mines beneath Netherwing Ledge. Allied with the Netherwing faction, players must sabotage Dragonmaw operations, free enslaved Netherwing drakes, and confront their captors, including Taskmaster Varkule, Chief Engineer Razgor, and a corrupted Nether Stalker drake, before facing the Dragonmaw leader.</p>
+                    </div>
+                </div>
+
+                 <div class="card p-8">
+                    <h3 class="font-bold text-2xl mb-3 text-white font-header">Updates to Existing Dungeons 🔧</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed">To address monotony in some of TBC's original instances, targeted tweaks are proposed to enhance variety and engagement without complete overhauls.</p>
+                    <div class="mt-4 grid md:grid-cols-2 gap-6 text-sm">
+                        <div class="bg-[var(--color-background-primary)] p-4 rounded-lg">
+                            <h4 class="font-semibold text-white mb-2">Coilfang Reservoir</h4>
+                            <p>Introduces more varied environments, such as glowing mushroom biomes and steam-vent sections. Adds dynamic hazards like water currents and vision-obscuring steam clouds. Lady Vashj's fight could include a partial arena flood, forcing repositioning.</p>
+                        </div>
+                         <div class="bg-[var(--color-background-primary)] p-4 rounded-lg">
+                            <h4 class="font-semibold text-white mb-2">Gruul's Lair</h4>
+                            <p>Adds more mechanically interesting trash mobs, like ogre mages requiring dispels. High King Maulgar's council members now move around the arena, and he can temporarily empower one, forcing a target switch. Gruul's fight gains a crystal-spawning phase.</p>
+                        </div>
+                         <div class="bg-[var(--color-background-primary)] p-4 rounded-lg">
+                            <h4 class="font-semibold text-white mb-2">Tempest Keep</h4>
+                            <p>Dungeon layouts are made more open and exploratory, with optional side paths and lore objects. For Al'ar in The Eye, a new phase is added where the raid must protect a Naaru crystal from being destroyed, tying the mechanics more closely to the lore.</p>
+                        </div>
+                         <div class="bg-[var(--color-background-primary)] p-4 rounded-lg">
+                            <h4 class="font-semibold text-white mb-2">Caverns of Time</h4>
+                            <p>Leverages the time-travel theme with unique mechanics. In Old Hillsbrad, players might temporarily "rewind" time to reset a failed event. In Black Morass, portals could be used to slow down or speed up enemy spawns, giving the raid more strategic control.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+</body>
+</html>

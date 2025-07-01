@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legendary & Pinnacle Quests - TBC Polish Addendum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-background-primary: #0c142c; /* Deep Cosmic Blue */
+            --color-background-secondary: #1a2340; /* Starfield Blue */
+            --color-text-primary: #f0e6ff; /* Pale Starlight */
+            --color-text-secondary: #a8b2d1; /* Nebula Grey */
+            --color-accent-gold: #FFD700; /* Titan Gold */
+            --color-accent-celestial: #66ccff; /* Celestial Blue */
+            --color-border: #3a4c7a;
+            --color-quality-legendary: #ff8000;
+            --c-warrior: #C79C6E; --c-paladin: #F58CBA; --c-hunter: #ABD473; --c-rogue: #FFF569;
+            --c-priest: #FFFFFF; --c-shaman: #0070DE; --c-mage: #69CCF0; --c-warlock: #9482C9; --c-druid: #FF7D0A;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--color-background-primary);
+            color: var(--color-text-primary);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+        }
+        
+        .font-header {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.05em;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .card {
+            background-color: rgba(26, 35, 64, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--color-border);
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+        
+        .section-header {
+            border-bottom: 2px solid var(--color-accent-gold);
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px -10px var(--color-accent-gold);
+        }
+
+        .header-icon {
+             width: 3rem; height: 3rem; margin-right: 1rem;
+             filter: drop-shadow(0 0 8px var(--color-accent-gold));
+        }
+
+        .legendary-card {
+            border-top: 4px solid var(--color-quality-legendary);
+        }
+        
+        .pinnacle-card {
+            background-color: var(--color-background-secondary); border: 1px solid var(--color-border);
+            border-radius: 0.5rem; transition: background-color 0.2s ease; overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .pinnacle-card summary {
+            padding: 1rem 1.5rem; font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.25rem;
+            cursor: pointer; list-style: none; display: flex; justify-content: space-between;
+            align-items: center; transition: background-color 0.2s ease;
+        }
+        .pinnacle-card summary::-webkit-details-marker { display: none; }
+        .pinnacle-card summary:hover { background-color: var(--color-border); }
+        .pinnacle-card details[open] summary { background-color: var(--color-border); border-bottom: 1px solid var(--color-background-primary); }
+        .pinnacle-card .details-content { padding: 1.5rem; background-color: var(--color-background-primary); }
+        .details-arrow { transition: transform 0.3s ease; }
+        .pinnacle-card details[open] .details-arrow { transform: rotate(90deg); }
+
+        .item-tooltip {
+            background-color: #0b0f19;
+            border: 1px solid #4a5568;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+        }
+        .item-tooltip .name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--color-quality-legendary);
+        }
+        .item-tooltip ul { list-style-type: none; padding: 0; margin: 0.5rem 0; }
+        .item-tooltip .proc { color: var(--color-accent-gold); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <main class="container mx-auto px-4 py-12 md:py-16">
+
+        <!-- Header Section -->
+        <section id="vision" class="mb-16 md:mb-24 text-center">
+            <div class="flex items-center justify-center mb-6">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-20 h-20 text-[var(--color-accent-gold)] filter drop-shadow-lg"><path fill-rule="evenodd" d="M9 4.5a.75.75 0 01.75.75v13.5a.75.75 0 01-1.5 0V5.25A.75.75 0 019 4.5zm5.854.296a.75.75 0 010 1.06L12.707 8l2.147 2.146a.75.75 0 11-1.06 1.06L10.586 8l2.147-2.146a.75.75 0 011.06 0z" clip-rule="evenodd" /></svg>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 font-header"><span class="text-[var(--color-accent-gold)]">Legendary Journeys</span> & Pinnacle Quests</h1>
+            <p class="max-w-4xl mx-auto text-lg text-gray-300 leading-relaxed">
+                Legendary items should be more than a lucky drop—they should be the reward at the end of an epic story. This proposal redesigns legendary acquisition to be a true journey, demanding skill, dedication, and world engagement. Furthermore, new Pinnacle Quests allow every specialization to prove their mastery and earn a unique, thematic reward befitting their chosen path.
+            </p>
+        </section>
+
+        <!-- Reimagined Legendaries -->
+        <section id="reimagined-legendaries" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="section-header flex items-center">
+                <img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_glave_01.jpg" class="header-icon rounded-lg" alt="Legendary Icon">
+                <h2 class="text-3xl md:text-4xl font-bold font-header">Reimagined <span class="text-[var(--color-accent-gold)]">Legendaries</span></h2>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Warglaives of Azzinoth -->
+                <div class="card legendary-card p-8">
+                    <h3 class="font-bold text-2xl font-header text-[var(--color-accent-gold)] mb-4">Warglaives of Azzinoth</h3>
+                    <p class="text-sm text-gray-300 mb-4">This questline forces the player to walk in Illidan's footsteps, confronting echoes of his past to prove they can handle the immense, corrupting power of the blades.</p>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3"><span class="text-xl">1️⃣</span><div><strong>Phase 1: Gathering the Essences.</strong> Defeat Kael'thas and Vashj, and perform a specific, challenging task during the Doomwalker world boss encounter to collect essences of ambition, servitude, and raw power.</div></li>
+                        <li class="flex items-start gap-3"><span class="text-xl">2️⃣</span><div><strong>Phase 2: The Binding Ritual.</strong> Survive a challenging solo scenario, facing spectral illusions of Illidan's past: Arthas, Tyrande, and Kil'jaeden.</div></li>
+                        <li class="flex items-start gap-3"><span class="text-xl">3️⃣</span><div><strong>Phase 3: Confronting the Betrayer.</strong> In the Black Temple raid, use a quest item during Illidan's final Demon Form to bind his rage, weakening him and attuning the blades to you.</div></li>
+                    </ul>
+                </div>
+                 <!-- Thori'dal, the Stars' Fury -->
+                <div class="card legendary-card p-8">
+                    <h3 class="font-bold text-2xl font-header text-[var(--color-accent-gold)] mb-4">Thori'dal, the Stars' Fury</h3>
+                    <p class="text-sm text-gray-300 mb-4">The bow of a Quel'dorei legend, shattered and lost. Its rebirth requires not just power, but collaboration between Azeroth's greatest artisans.</p>
+                     <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3"><span class="text-xl">1️⃣</span><div><strong>Phase 1: Recovering the Fragments.</strong> Collect a Phoenix Feather from Al'ar in The Eye, then commission a Master Leatherworker and Jewelcrafter to create the bow's other components.</div></li>
+                        <li class="flex items-start gap-3"><span class="text-xl">2️⃣</span><div><strong>Phase 2: The Elven Trial.</strong> Complete a demanding solo archery trial in a phased sanctuary on Quel'Danas, testing ranged skill, interrupts, and awareness against spectral archers.</div></li>
+                        <li class="flex items-start gap-3"><span class="text-xl">3️⃣</span><div><strong>Phase 3: The Bow's Rebirth.</strong> At a celestial anvil within Sunwell Plateau, defend an echo of Anveena Teague from Eredar spirits while the bow is reforged.</div></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Legendaries -->
+        <section id="new-legendaries" class="mb-16 md:mb-24 scroll-mt-20">
+             <div class="section-header flex items-center">
+                <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_orb_01.jpg" class="header-icon rounded-lg" alt="Legendary Icon">
+                <h2 class="text-3xl md:text-4xl font-bold font-header">New Tiered <span class="text-[var(--color-accent-gold)]">Legendaries</span></h2>
+            </div>
+            <div class="space-y-8">
+                 <div class="card legendary-card p-8">
+                    <h3 class="font-bold text-2xl font-header text-[var(--color-accent-gold)] mb-2">Vessel of the Forgotten Light <span class="text-base font-sans font-normal text-gray-400">(Tier 4 Healer Off-hand)</span></h3>
+                    <p class="text-sm text-gray-300 mb-4">An ancient Naaru artifact shattered during the attack on Shattrath. Its restoration is a testament to a healer's compassion and resilience.</p>
+                     <ul class="space-y-3 text-sm mb-6">
+                        <li class="flex items-start gap-3"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_key_11.jpg" class="w-8 h-8 rounded-md"><div><strong>Phase 1: Cleansing the Taint.</strong> Cleanse corrupted altars in Heroic Auchenai Crypts while protecting the spirit of Exarch Maladaar.</div></li>
+                        <li class="flex items-start gap-3"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_testoffaith.jpg" class="w-8 h-8 rounded-md"><div><strong>Phase 2: The Trial of Compassion.</strong> Survive a demanding solo scenario, healing waves of wounded Draenei refugees while managing mana and dispelling debuffs.</div></li>
+                        <li class="flex items-start gap-3"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_trinket_naaru_01.jpg" class="w-8 h-8 rounded-md"><div><strong>Phase 3: Uniting the Fragments.</strong> Attune a quest item by defeating Gruul, Magtheridon, and High King Maulgar within the same raid lockout.</div></li>
+                    </ul>
+                    <div class="item-tooltip">
+                        <p class="name">Vessel of the Forgotten Light</p>
+                        <p class="text-xs text-gray-400">Held in Off-hand</p>
+                        <ul class="text-white">
+                            <li>+155 Healing Power</li>
+                            <li>+22 Intellect</li>
+                            <li>+18 Spirit</li>
+                            <li>+12 MP5</li>
+                        </ul>
+                        <p class="proc">Use: Channel "Gift of the Forgotten Light" for 8 seconds. Increases all healing done by 25% and grants party members within 30 yards 100 spell haste rating for 15 seconds. (3 Min Cooldown)</p>
+                    </div>
+                </div>
+                 <div class="card legendary-card p-8">
+                    <h3 class="font-bold text-2xl font-header text-[var(--color-accent-gold)] mb-2">The Echoing Fang <span class="text-base font-sans font-normal text-gray-400">(Tier 5 Melee Dagger)</span></h3>
+                    <p class="text-sm text-gray-300 mb-4">A fang torn from a creature unstuck in time, resonating with temporal echoes. Its power is unstable but immense.</p>
+                     <ul class="space-y-3 text-sm mb-6">
+                        <li class="flex items-start gap-3"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_rune_01.jpg" class="w-8 h-8 rounded-md"><div><strong>Phase 1: Stabilizing Rifts.</strong> Defeat Al'ar and Leotheras the Blind under challenging, quest-specific conditions to gather unstable essences.</div></li>
+                        <li class="flex items-start gap-3"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastwithin.jpg" class="w-8 h-8 rounded-md"><div><strong>Phase 2: The Primeval Hunt.</strong> Hunt and defeat Teron'gor's past self in a challenging solo scenario within the Black Morass, testing sustained DPS and survival skills.</div></li>
+                        <li class="flex items-start gap-3"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_dragon_bronze_01.jpg" class="w-8 h-8 rounded-md"><div><strong>Phase 3: Anachronos's Blessing.</strong> Defend the collected components from waves of elite Infinite Dragonflight assassins in a timed world event.</div></li>
+                    </ul>
+                     <div class="item-tooltip">
+                        <p class="name">The Echoing Fang</p>
+                        <p class="text-xs text-gray-400">One-Hand Dagger</p>
+                        <ul class="text-white">
+                            <li>120 - 185 Damage (Speed 1.40)</li>
+                            <li>+22 Agility</li>
+                            <li>+20 Strength</li>
+                            <li>+18 Hit Rating</li>
+                             <li>+95 Armor Penetration</li>
+                        </ul>
+                        <p class="proc">Chance on hit: Unleash "Fang of the Void," dealing 350 Shadow damage and increasing your Agility and Strength by 150 for 10 sec.</p>
+                    </div>
+                </div>
+                 <div class="card legendary-card p-8">
+                    <h3 class="font-bold text-2xl font-header text-[var(--color-accent-gold)] mb-2">Crown of the Sunken Star <span class="text-base font-sans font-normal text-gray-400">(Tier 5 Caster Helm)</span></h3>
+                    <p class="text-sm text-gray-300 mb-4">Forged from a star fragment that fell into the abyssal depths beneath Coilfang Reservoir, imbued with celestial and abyssal power.</p>
+                     <ul class="space-y-3 text-sm mb-6">
+                        <li class="flex items-start gap-3"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_frozencore.jpg" class="w-8 h-8 rounded-md"><div><strong>Phase 1: Attuning the Elements.</strong> Collect essences from Hydross, Solarian, and Morogrim Tidewalker by performing specific, difficult tasks during the raid encounters.</div></li>
+                        <li class="flex items-start gap-3"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcaneconcentration.jpg" class="w-8 h-8 rounded-md"><div><strong>Phase 2: The Trial of Focus.</strong> Channel energy into focusing crystals while under constant assault in a demanding solo scenario within the Mana-Tombs.</div></li>
+                        <li class="flex items-start gap-3"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadesofdarkness.jpg" class="w-8 h-8 rounded-md"><div><strong>Phase 3: The Abyssal Guardian.</strong> After combining the essences, defeat a powerful new elemental boss in a hidden solo encounter beneath Serpentshrine Cavern.</div></li>
+                    </ul>
+                    <div class="item-tooltip">
+                        <p class="name">Crown of the Sunken Star</p>
+                        <p class="text-xs text-gray-400">Cloth Head</p>
+                        <ul class="text-white">
+                            <li>+35 Stamina</li>
+                            <li>+40 Intellect</li>
+                            <li>+28 Spell Crit Rating</li>
+                            <li>+52 Spell Power</li>
+                            <li>+25 Spell Penetration</li>
+                        </ul>
+                        <p class="proc">Equip: Your periodic damage and channeled spells have a chance to activate Void Infusion, restoring 150 mana per second for 4 seconds.</p>
+                        <p class="proc">Use: Your next three damaging spells are instant and cost 50% less mana. (3 Min Cooldown)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pinnacle Quests Section -->
+        <section id="pinnacle-quests" class="scroll-mt-20">
+            <div class="section-header flex items-center">
+                <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_quest_brd_banner.jpg" class="header-icon rounded-lg" alt="Pinnacle Icon">
+                <h2 class="text-3xl md:text-4xl font-bold font-header">Specialization <span class="text-[var(--color-accent-gold)]">Pinnacle Quests</span></h2>
+            </div>
+             <p class="text-center text-gray-300 max-w-4xl mx-auto mb-10 leading-relaxed">
+                To deepen class and specialization identity beyond gear alone, these long, multi-chapter questlines provide a narrative journey for each spec. Unlocking progressively with raid tiers and other milestones, they explore the spec's unique lore and culminate in a powerful, thematic item reflecting true mastery.
+            </p>
+            <div id="pinnacle-quests-container" class="space-y-4 text-left">
+                <!-- Pinnacle quest cards will be injected by JS -->
+            </div>
+        </section>
+        
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             const pinnacleQuestsData = {
+                "Warrior": { emoji: "🛡️", color: "var(--c-warrior)", specs: [ { name: "Arms: The Weight of Ancient Grudges", rewardIcon: "inv_ring_25", journey: ["<strong>Chapter 1 (T4):</strong> Collect relics from battle sites in Nagrand.", "<strong>Chapter 2 (T5):</strong> Enter a solo scenario facing spectral opponents, testing precise ability timing.", "<strong>Chapter 3 (T6):</strong> Confront a fragment of Gorehowl's wielder in a phased raid encounter.", "<strong>Chapter 4 (Sunwell):</strong> Withstand the final echo of a legendary warrior's rage in a duel."], reward: "Gorehowl's Echoing Mark (Ring)", effect: "<em>Proc: Your Mortal Strike crits empower your next Slam or Whirlwind.</em>" }, { name: "Fury: The Unleashed Titan", rewardIcon: "inv_jewelry_necklace_26", journey: ["<strong>Chapter 1 (T4):</strong> Seek a primal fury spirit in Blade's Edge.", "<strong>Chapter 2 (T5):</strong> Sustain maximum damage against unending enemies in a solo gauntlet.", "<strong>Chapter 3 (T6):</strong> Defeat a rage-infused elemental in Serpentshrine Cavern.", "<strong>Chapter 4 (Sunwell):</strong> Absorb the pure rage of Brutallus and survive."], reward: "Necklace of the Raging Colossus (Neck)", effect: "<em>On-use: Enter an uncontrollable rampage for 8 seconds.</em>" }, { name: "Protection: The Immovable Mountain", rewardIcon: "inv_jewelry_ring_41", journey: ["<strong>Chapter 1 (T4):</strong> Discover remnants of a legendary shield in Karazhan.", "<strong>Chapter 2 (T5):</strong> Defend fragile NPCs against waves of attackers in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Confront a powerful infernal in Black Temple whose attacks test all mitigation abilities.", "<strong>Chapter 4 (Sunwell):</strong> Hold your ground against a manifestation of pure force near the Sunwell's heart."], reward: "Sentinel's Indomitable Bulwark (Ring)", effect: "<em>Passive: Using Shield Block or Spell Reflection builds stacks to empower your next Shield Slam.</em>" } ] },
+                "Paladin": { emoji: "🔨", color: "var(--c-paladin)", specs: [ { name: "Holy: The Purest Light", rewardIcon: "inv_jewelry_necklace_49", journey: ["<strong>Chapter 1 (T4):</strong> Investigate a corrupted Draenei temple in Shadowmoon Valley.", "<strong>Chapter 2 (T5):</strong> Heal NPCs and dispel stacking debuffs in a solo scenario testing mana efficiency.", "<strong>Chapter 3 (T6):</strong> Assist a trapped Naaru in a high-stakes channel within Black Temple.", "<strong>Chapter 4 (Sunwell):</strong> Channel the Sunwell's light to purify a powerful demon, healing through immense shadow damage."], reward: "Amulet of Sacred Restoration (Neck)", effect: "<em>Proc: Your critical heals have a chance to shield your target.</em>" }, { name: "Protection: The Unyielding Oath", rewardIcon: "inv_jewelry_ring_39", journey: ["<strong>Chapter 1 (T4):</strong> Reclaim a lost Paladin training ground in Eastern Plaguelands.", "<strong>Chapter 2 (T5):</strong> Hold threat on multiple enemy waves in a solo trial.", "<strong>Chapter 3 (T6):</strong> Confront a demon lord in Hyjal, testing defensive cooldown usage.", "<strong>Chapter 4 (Sunwell):</strong> Use Righteous Defense to intercept a fatal blow meant for an NPC in a raid encounter."], reward: "Ring of the Vigilant Protector (Ring)", effect: "<em>On-use: Your Judgements empower your next two Holy Shield charges.</em>" }, { name: "Retribution: The Blade of Justice", rewardIcon: "inv_jewelry_necklace_25", journey: ["<strong>Chapter 1 (T4):</strong> Find ancient prophecies in the Scarlet Monastery library.", "<strong>Chapter 2 (T5):</strong> Face corrupted cultists, requiring precise Seal Twisting in a solo challenge.", "<strong>Chapter 3 (T6):</strong> Confront an undead commander in Black Temple, breaking through unholy resistances.", "<strong>Chapter 4 (Sunwell):</strong> Imbue your weapon with the Sunwell's energy and defeat a manifestation of your own doubt."], reward: "Divine Avenger's Crest (Neck)", effect: "<em>Proc: Your Judgements have a chance to call down a burst of Holy energy.</em>" } ] },
+                "Hunter": { emoji: "🏹", color: "var(--c-hunter)", specs: [ { name: "Beast Mastery: The Primal Bond", rewardIcon: "inv_jewelry_necklace_36", journey: ["<strong>Chapter 1 (T4):</strong> Track a legendary, elusive beast in Nagrand.", "<strong>Chapter 2 (T5):</strong> You and your pet must take down a formidable boss in a solo trial.", "<strong>Chapter 3 (T6):</strong> Journey to the Spirit World to face spiritual versions of legendary beasts.", "<strong>Chapter 4 (Sunwell):</strong> Tame a Fel-corrupted hydra from the Sunwell's depths."], reward: "Charm of the Untamed Companion (Neck)", effect: "<em>Passive: Your pet's Kill Command crits grant attack speed to you and your pet.</em>" }, { name: "Marksmanship: The True Shot", rewardIcon: "inv_jewelry_ring_21", journey: ["<strong>Chapter 1 (T4):</strong> Ascend treacherous peaks to find a fabled vantage point.", "<strong>Chapter 2 (T5):</strong> Eliminate moving targets with increasing speed in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Confront a powerful flying demon in Netherstorm.", "<strong>Chapter 4 (Sunwell):</strong> Land a perfect shot on a distant target across the Sunwell Plateau during a raid encounter."], reward: "Ring of the Flawless Aim (Ring)", effect: "<em>On-use: Your ranged attacks can make your next Aimed Shot instant.</em>" }, { name: "Survival: The Adaptable Stalker", rewardIcon: "inv_jewelry_necklace_46", journey: ["<strong>Chapter 1 (T4):</strong> Navigate a trap-laden area of Hellfire Peninsula.", "<strong>Chapter 2 (T5):</strong> Lure and eliminate powerful demons using traps and explosives in a solo challenge.", "<strong>Chapter 3 (T6):</strong> Confront a highly intelligent, trap-immune demon in Shadowmoon Valley.", "<strong>Chapter 4 (Sunwell):</strong> Use a complex series of traps to neutralize a powerful construct within the Sunwell Plateau."], reward: "Trapper's Masterpiece Talisman (Neck)", effect: "<em>Proc: When your traps are triggered, you gain increased critical strike chance.</em>" } ] },
+                "Rogue": { emoji: "🗡️", color: "var(--c-rogue)", specs: [ { name: "Assassination: The Perfect Poison", rewardIcon: "inv_jewelry_ring_62", journey: ["<strong>Chapter 1 (T4):</strong> Uncover a lost tome of poisons from Ravenholdt.", "<strong>Chapter 2 (T5):</strong> Infiltrate a fortified base, eliminating targets silently in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Concoct a master poison to defeat a poison-immune construct in Black Temple.", "<strong>Chapter 4 (Sunwell):</strong> Assassinate a key Eredar commander by bypassing their immunities with your unique poison."], reward: "Venom-Laced Signet (Ring)", effect: "<em>Proc: Your Envenom has a chance to create a pool of acidic poison.</em>" }, { name: "Combat: The Blademaster's Dance", rewardIcon: "inv_jewelry_necklace_15", journey: ["<strong>Chapter 1 (T4):</strong> Seek the spirits of fallen blademasters in Blade's Edge.", "<strong>Chapter 2 (T5):</strong> Face multiple opponents at once in a solo scenario testing cooldown management.", "<strong>Chapter 3 (T6):</strong> Disarm a series of complex traps under fire in a timed raid challenge in Hyjal.", "<strong>Chapter 4 (Sunwell):</strong> Win a duel against a spectral blademaster within the Sunwell itself."], reward: "Pendant of the Unseen Blade (Neck)", effect: "<em>Passive: Sinister Strike can grant charges that empower your next Eviscerate.</em>" }, { name: "Subtlety: The Master of Shadows", rewardIcon: "inv_jewelry_necklace_44", journey: ["<strong>Chapter 1 (T4):</strong> Learn shadow manipulation from the Ethereals in Netherstorm.", "<strong>Chapter 2 (T5):</strong> Navigate a guarded vault using only stealth and distraction in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Use Shadowstep to bypass a lethal mechanic and strike a vital target in Black Temple.", "<strong>Chapter 4 (Sunwell):</strong> Traverse the Sunwell Plateau unseen to deliver a message to a hidden contact."], reward: "Cloak of Perpetual Night (Neck)", effect: "<em>On-use: Instantly enter stealth in combat. Your first ability from this stealth deals increased damage.</em>" } ] },
+                "Priest": { emoji: "🙏", color: "var(--c-priest)", specs: [ { name: "Discipline: The Aegis of Will", rewardIcon: "inv_jewelry_necklace_49", journey: ["<strong>Chapter 1 (T4):</strong> Recover scriptures from Scarlet Monastery's forbidden library.", "<strong>Chapter 2 (T5):</strong> Protect a fragile ally by absorbing massive damage in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Face a manifestation of pure despair in a vision within the Black Temple.", "<strong>Chapter 4 (Sunwell):</strong> Maintain a shield on the entire raid during a massive burst of damage from Kil'jaeden."], reward: "Pendant of Inner Fortitude (Neck)", effect: "<em>Passive: Consumed Power Word: Shield explodes, healing nearby allies.</em>" }, { name: "Holy: The Conduit of Grace", rewardIcon: "inv_jewelry_ring_40", journey: ["<strong>Chapter 1 (T4):</strong> Follow the Naaru's light, gathering residual energy.", "<strong>Chapter 2 (T5):</strong> Heal NPCs with a stacking debuff that requires critical heals to cleanse in a solo challenge.", "<strong>Chapter 3 (T6):</strong> Purify a corrupted Lightwell in Auchindoun, defending it from waves of shadow spirits.", "<strong>Chapter 4 (Sunwell):</strong> Use the Sunwell's power to perform a mass resurrection during a scripted raid event."], reward: "Ring of Divine Echoes (Ring)", effect: "<em>Proc: Your Prayer of Mending has a chance not to be consumed on its next jump.</em>" }, { name: "Shadow: The Whispering Void", rewardIcon: "inv_jewelry_necklace_48", journey: ["<strong>Chapter 1 (T4):</strong> Decipher forbidden Shadow Council texts from Heroic Shadow Labyrinth.", "<strong>Chapter 2 (T5):</strong> Survive a solo encounter against a drain-resistant Void Revenant.", "<strong>Chapter 3 (T6):</strong> Perform a dark ritual near the Black Temple, corrupting its energy.", "<strong>Chapter 4 (Sunwell):</strong> Summon and defeat a powerful void entity near the Sunwell."], reward: "Talisman of the Void's Embrace (Neck)", effect: "<em>Proc: Your Shadow Word: Pain ticks can summon a damaging shadowy apparition.</em>" } ] },
+                "Shaman": { emoji: "⚡", color: "var(--c-shaman)", specs: [ { name: "Elemental: The Eye of the Storm", rewardIcon: "inv_jewelry_ring_51", journey: ["<strong>Chapter 1 (T4):</strong> Seek audience with the elemental lords of Outland.", "<strong>Chapter 2 (T5):</strong> Harness a storm to take down a massive earth elemental in a solo challenge.", "<strong>Chapter 3 (T6):</strong> Overload a demonic forge in a raid to weaken a boss.", "<strong>Chapter 4 (Sunwell):</strong> Absorb the power of a Sunwell Guardian and unleash it on an Eredar Lord."], reward: "Ring of the Stormcaller (Ring)", effect: "<em>Passive: Lightning Overload procs grant Maelstrom stacks, making your next Chain Lightning instant.</em>" }, { name: "Enhancement: The Primal Fury", rewardIcon: "inv_jewelry_necklace_45", journey: ["<strong>Chapter 1 (T4):</strong> Undergo a ritual with the Mag'har to imbue your weapons.", "<strong>Chapter 2 (T5):</strong> Face an opponent with shifting elemental resistances in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Unleash a perfect Stormstrike during a specific boss mechanic in Hyjal.", "<strong>Chapter 4 (Sunwell):</strong> Call upon the ancient spirits of Draenor to assist in the final battle against Kil'jaeden."], reward: "Necklace of the Spirit Wolf (Neck)", effect: "<em>On-use: Your weapon swings can summon two Spirit Wolves.</em>" }, { name: "Restoration: The World-Mender", rewardIcon: "inv_jewelry_necklace_22", journey: ["<strong>Chapter 1 (T4):</strong> Gather pure water from the depths of Serpentshrine Cavern.", "<strong>Chapter 2 (T5):</strong> Heal a grove of ancient trees from a creeping blight in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Cleanse a Totem of the Earthmother in a raid encounter for a powerful healing buff.", "<strong>Chapter 4 (Sunwell):</strong> Use the combined power of your totems to close a demonic portal during the Kil'jaeden fight."], reward: "Chain of the Living Tide (Neck)", effect: "<em>Proc: Chain Heal crits leave a pool of healing water.</em>" } ] },
+                "Mage": { emoji: "🧙", color: "var(--c-mage)", specs: [ { name: "Arcane: The Master of Mana", rewardIcon: "inv_jewelry_ring_46", journey: ["<strong>Chapter 1 (T4):</strong> Study the ley lines of Netherstorm.", "<strong>Chapter 2 (T5):</strong> Defeat a time-manipulating Ethereal mage in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Overload a mana forge in Tempest Keep to create a temporary field of infinite power.", "<strong>Chapter 4 (Sunwell):</strong> Rewrite a demonic rune mid-fight to weaken a Sunwell boss."], reward: "Signet of the Archmage (Ring)", effect: "<em>Passive: Arcane Missiles can make your next Arcane Blast instant.</em>" }, { name: "Fire: The Raging Inferno", rewardIcon: "inv_jewelry_necklace_38", journey: ["<strong>Chapter 1 (T4):</strong> Retrieve the heart of a powerful fire elemental from Heroic Molten Core.", "<strong>Chapter 2 (T5):</strong> Fight a frost elemental that requires skillful use of mobility spells in a solo challenge.", "<strong>Chapter 3 (T6):</strong> Ignite a series of demonic portals in Black Temple before they can summon reinforcements.", "<strong>Chapter 4 (Sunwell):</strong> Absorb the flames of a Fel-dragon and use them to empower your spells."], reward: "Pendant of the Phoenix (Neck)", effect: "<em>Proc: Fire crits can reset the cooldown of Combustion.</em>" }, { name: "Frost: The Frozen Heart", rewardIcon: "inv_jewelry_ring_22", journey: ["<strong>Chapter 1 (T4):</strong> Seek the counsel of a forgotten water spirit in Winterspring.", "<strong>Chapter 2 (T5):</strong> Kite a powerful, fast-moving elite while your Water Elemental freezes adds in a solo challenge.", "<strong>Chapter 3 (T6):</strong> Freeze a series of arcane conduits in Serpentshrine Cavern to weaken a boss.", "<strong>Chapter 4 (Sunwell):</strong> Shatter a massive crystal shielding a Sunwell boss with a perfectly timed frost spell."], reward: "Band of the Winter's Bite (Ring)", effect: "<em>On-use: Encase yourself in a block of ice, becoming immune to damage.</em>" } ] },
+                "Warlock": { emoji: "😈", color: "var(--c-warlock)", specs: [ { name: "Affliction: Legacy of the Shadow Council", rewardIcon: "inv_jewelry_necklace_48", journey: ["<strong>Chapter 1 (T4):</strong> Decipher forbidden Shadow Council texts from Heroic Shadow Labyrinth.", "<strong>Chapter 2 (T5):</strong> Perform a dark ritual in Blade's Edge Mountains.", "<strong>Chapter 3 (T6):</strong> Survive a solo encounter against a drain-resistant Void Revenant.", "<strong>Chapter 4 (Sunwell):</strong> Collect Condensed Souls from Black Temple bosses."], reward: "Choker of Endless Agony (Neck)", effect: "<em>Proc: Corruption ticks can extend the duration of Unstable Affliction.</em>" }, { name: "Demonology: The Master Summoner", rewardIcon: "inv_jewelry_ring_28", journey: ["<strong>Chapter 1 (T4):</strong> Learn the true names of powerful demons from a captured Eredar.", "<strong>Chapter 2 (T5):</strong> Use your demons' abilities to overcome puzzles in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Challenge your own Felguard in a ritual combat.", "<strong>Chapter 4 (Sunwell):</strong> Summon a unique, powerful demon to fight alongside you for the final boss encounter."], reward: "Ring of the Demonic Tyrant (Ring)", effect: "<em>Passive: Your Felguard's Cleave can grant Demonic Power, reducing cast time.</em>" }, { name: "Destruction: The Herald of Chaos", rewardIcon: "inv_jewelry_necklace_21", journey: ["<strong>Chapter 1 (T4):</strong> Gather fragments of a destroyed infernal.", "<strong>Chapter 2 (T5):</strong> Face a spell-reflecting opponent in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Channel fel energy into a demonic cannon in a raid.", "<strong>Chapter 4 (Sunwell):</strong> Unleash a Chaos Bolt so powerful it shatters a portion of the Sunwell's defenses."], reward: "Pendant of the Shattered World (Neck)", effect: "<em>On-use: Your next three Chaos Bolts or Incinerates are guaranteed critical strikes.</em>" } ] },
+                "Druid": { emoji: "🐾", color: "var(--c-druid)", specs: [ { name: "Balance: The Celestial Cycle", rewardIcon: "inv_jewelry_ring_49", journey: ["<strong>Chapter 1 (T4):</strong> Align with celestial bodies by visiting ancient moonwells.", "<strong>Chapter 2 (T5):</strong> Maintain a perfect Eclipse cycle against a shifting enemy in a solo challenge.", "<strong>Chapter 3 (T6):</strong> Call down a Starfall to reveal hidden enemies in a raid.", "<strong>Chapter 4 (Sunwell):</strong> Imbue your Moonkin form with the Sunwell's energy for a powerful temporary buff."], reward: "Band of the Twin Eclipses (Ring)", effect: "<em>Proc: Entering an Eclipse can make your next Starfire or Wrath instant.</em>" }, { name: "Feral (Cat): The Silent Predator", rewardIcon: "inv_jewelry_necklace_36", journey: ["<strong>Chapter 1 (T4):</strong> Hunt the most dangerous beasts of Outland to learn their techniques.", "<strong>Chapter 2 (T5):</strong> Stalk and eliminate targets undetected in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Deliver a perfectly timed Maim to interrupt a boss's devastating spell.", "<strong>Chapter 4 (Sunwell):</strong> Strike from the shadows to assassinate a key Legion lieutenant before the final boss pull."], reward: "Amulet of the Jungle Stalker (Neck)", effect: "<em>Passive: Tiger's Fury reduces the energy cost of your next finisher.</em>" }, { name: "Feral (Bear): The Guardian of the Wilds", rewardIcon: "inv_jewelry_ring_24", journey: ["<strong>Chapter 1 (T4):</strong> Seek the blessing of the ancient bear spirits.", "<strong>Chapter 2 (T5):</strong> Defend a sacred grove from waves of attackers in a solo challenge.", "<strong>Chapter 3 (T6):</strong> Absorb a massive blow meant for your allies in a raid.", "<strong>Chapter 4 (Sunwell):</strong> Hold off an entire wave of demons single-handedly for a short duration."], reward: "Ring of the Ursine Guardian (Ring)", effect: "<em>Proc: Taking damage below 35% health causes your next Mangle/Lacerate to heal you.</em>" }, { name: "Restoration: The Seed of Life", rewardIcon: "inv_jewelry_necklace_22", journey: ["<strong>Chapter 1 (T4):</strong> Gather Living Spores and perform a cleansing ritual.", "<strong>Chapter 2 (T5):</strong> Navigate to an Uncorrupted Primordial Spring in a solo scenario.", "<strong>Chapter 3 (T6):</strong> Retrieve a scorched branch from Hyjal and heal its spirit in the Emerald Dream.", "<strong>Chapter 4 (Sunwell):</strong> Plant the branch in the Sunwell Plateau, defending it from demonic energy in a grueling healing endurance test."], reward: "Seed of Renewed Life (Neck)", effect: "<em>Proc: Lifebloom's final bloom can create a healing moss bed.</em>" } ] }
+            };
+
+            function renderPinnacleQuests() {
+                const container = document.getElementById('pinnacle-quests-container');
+                if (!container) return;
+
+                for (const className in pinnacleQuestsData) {
+                    const classInfo = pinnacleQuestsData[className];
+                    let classHtml = `<div class="pinnacle-card"><details><summary><span style="color:${classInfo.color};">${classInfo.emoji} ${className} Pinnacle Quests</span><span class="details-arrow">›</span></summary><div class="details-content space-y-6">`;
+                    classInfo.specs.forEach((spec, index) => {
+                        let specHtml = `<div class="${index < classInfo.specs.length - 1 ? 'border-b border-gray-700/50 pb-6 mb-6' : ''}">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h5 class="font-bold text-lg font-header" style="color:${classInfo.color};">${spec.name}</h5>
+                                    <p class="font-semibold text-base text-[var(--color-accent-gold)] mt-3">Reward: ${spec.reward}</p>
+                                    <p class="text-sm text-gray-300">${spec.effect}</p>
+                                </div>
+                                <img src="https://wow.zamimg.com/images/wow/icons/large/${spec.rewardIcon}.jpg" class="w-16 h-16 rounded-lg border-2" style="border-color:${classInfo.color};" alt="Reward Icon">
+                            </div>
+                             <h6 class="font-semibold text-base text-[var(--color-accent-sand)] mt-4 mb-2">The Journey:</h6>
+                             <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">`;
+                        spec.journey.forEach(step => { specHtml += `<li>${step}</li>`; });
+                        specHtml += `</ul></div>`;
+                        classHtml += specHtml;
+                    });
+                    classHtml += `</div></details></div>`;
+                    container.innerHTML += classHtml;
+                }
+            }
+            renderPinnacleQuests();
+        });
+    </script>
+</body>
+</html>

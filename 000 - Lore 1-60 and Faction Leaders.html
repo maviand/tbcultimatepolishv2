@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World of Warcraft: Chronicles of a World Reborn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles inspired by Blizzard's aesthetic */
+        :root {
+            --horde-red: #b82828;
+            --alliance-blue: #285cb8;
+            --amber-glow: #ffc700;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            background-image: url('https://images.alphacoders.com/850/850853.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0,0,0,0.7);
+        }
+
+        .cinzel-black {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            animation: text-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes text-glow {
+            from { text-shadow: 0 0 8px var(--amber-glow), 0 0 10px var(--amber-glow); }
+            to { text-shadow: 0 0 12px var(--amber-glow), 0 0 20px #ff8c00; }
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 1)), url('https://images.alphacoders.com/111/1119567.jpg');
+            background-size: cover;
+            background-position: center;
+            /* Parallax will be controlled by JS */
+        }
+
+        .stone-panel {
+            background-color: rgba(18, 18, 20, 0.85);
+            border: 1px solid #4a4a4a;
+            border-image: linear-gradient(to right, #7a6b4a, #c7b27a, #7a6b4a) 1;
+            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #c7b27a, transparent);
+            border: 0;
+            margin: 2rem auto;
+            position: relative;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: var(--amber-glow);
+            border-radius: 50%;
+            box-shadow: 0 0 15px 5px var(--amber-glow);
+            filter: blur(3px);
+        }
+
+
+        .section-header {
+            border-bottom: 2px solid;
+            border-image: linear-gradient(to right, transparent, #c7b27a 50%, transparent) 1;
+            padding-bottom: 1rem;
+        }
+
+        .leader-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .leader-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .horde-border { border-left: 4px solid var(--horde-red); }
+        .alliance-border { border-left: 4px solid var(--alliance-blue); }
+        .horde-border:hover { box-shadow: 0 0 30px rgba(184, 40, 40, 0.5); }
+        .alliance-border:hover { box-shadow: 0 0 30px rgba(40, 92, 184, 0.5); }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .modal-backdrop.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+        .modal-backdrop.visible .modal-content {
+            transform: scale(1);
+        }
+
+        /* Scroll reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nav-link {
+             transition: color 0.3s ease, transform 0.3s ease;
+             display: inline-block;
+        }
+        
+        .nav-link:hover {
+             color: var(--amber-glow);
+             transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 bg-black/80 backdrop-blur-sm z-50 transition-all duration-500 opacity-0 -translate-y-full shadow-lg shadow-black/50">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl text-amber-300">Chronicles of a World Reborn</h1>
+                <div class="hidden md:flex space-x-6 text-gray-300">
+                    <a href="#philosophy" class="nav-link">Philosophy</a>
+                    <a href="#narrative" class="nav-link">Narrative</a>
+                    <a href="#zones" class="nav-link">Lands</a>
+                    <a href="#leaders" class="nav-link">Leaders</a>
+                    <a href="#overture" class="nav-link">Overture</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero" class="hero-bg min-h-screen flex items-center justify-center text-center">
+        <div class="bg-black/40 p-10 rounded-lg">
+            <h1 class="text-6xl md:text-8xl font-black text-white cinzel-black tracking-wider">CHRONICLES OF A</h1>
+            <h2 class="text-5xl md:text-7xl text-amber-400 cinzel-black mt-2">WORLD REBORN</h2>
+            <p class="text-gray-300 mt-6 max-w-2xl mx-auto text-lg">The face of Azeroth is changing. Old wounds fester and new threats rise. Experience a realm remade, where every journey is an epic saga, and every shadow foretells a coming storm.</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-8 py-16 space-y-24">
+        <!-- SECTIONS: Philosophy, Narrative, Zones... -->
+        <!-- I. The Core Philosophy -->
+        <section id="philosophy" class="reveal">
+            <div class="stone-panel p-8 md:p-12 rounded-lg">
+                <h2 class="text-4xl text-center text-amber-300 section-header">The Core Philosophy</h2>
+                <h3 class="text-2xl text-center text-gray-300 mt-4">"Threads of Fate"</h3>
+                <p class="mt-6 text-lg max-w-4xl mx-auto text-center text-gray-400">
+                    The world of Azeroth is a tapestry of stories, but many threads have been left frayed. We are re-weaving the entire 1-60 experience. Instead of a scattered collection of quests, major zones will now feature a central narrative arc—a "Thread"—that tells a complete story while subtly foreshadowing future events. This is our primary tool for crafting a more cohesive and connected world, where your actions have meaning and momentum.
+                </p>
+                <hr class="divider">
+                <div class="grid md:grid-cols-3 gap-8 mt-8 text-center">
+                    <div>
+                        <h4 class="text-xl text-amber-400">Quest Hub Consolidation</h4>
+                        <p class="mt-2 text-gray-400">More robust hubs reduce needless travel and create a stronger sense of place, turning lonely zones into bustling centers of activity.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl text-amber-400">Intelligent Quest Chains</h4>
+                        <p class="mt-2 text-gray-400">Quests flow logically from one hub to the next, creating narrative momentum that carries you across continents.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl text-amber-400">Traveler's Caravan System</h4>
+                        <p class="mt-2 text-gray-400">An immersive, slow-travel option to help you safely traverse dangerous lands and drink in the scenery.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- II. Weaving the Narrative -->
+        <section id="narrative" class="reveal">
+            <h2 class="text-4xl text-center text-amber-300 section-header">Weaving the Narrative</h2>
+            <h3 class="text-2xl text-center text-gray-300 mt-4">Whispers of a Shattered World</h3>
+            <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
+                <!-- Legion Card -->
+                <div class="stone-panel p-6 rounded-lg flex flex-col hover:shadow-lime-500/20 hover:border-lime-400">
+                    <img src="https://images.alphacoders.com/737/737939.jpg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/3a1a4a/a5ff91?text=Legion%27s+Shadow';" alt="Legion influence" class="rounded-t-lg w-full h-48 object-cover">
+                    <div class="p-4 flex-grow">
+                        <h4 class="text-2xl text-lime-400">The Shadow Council's Whispers</h4>
+                        <p class="mt-3 text-gray-400">Stumble upon demons in unexpected places, kicking off a cross-continental investigation into cultists weakening Azeroth's defenses.</p>
+                    </div>
+                </div>
+                <!-- Draenei Card -->
+                <div class="stone-panel p-6 rounded-lg flex flex-col hover:shadow-cyan-500/20 hover:border-cyan-400">
+                    <img src="https://images.alphacoders.com/959/959520.jpg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a2a4a/91d5ff?text=Draenei+Survivor';" alt="Draenei crystal" class="rounded-t-lg w-full h-48 object-cover">
+                    <div class="p-4 flex-grow">
+                        <h4 class="text-2xl text-cyan-300">The Crashed Survivor</h4>
+                        <p class="mt-3 text-gray-400">Discover a lone, wounded Draenei survivor whose delirious warnings hint at a world beyond the Dark Portal.</p>
+                    </div>
+                </div>
+                <!-- Blood Elf Card -->
+                <div class="stone-panel p-6 rounded-lg flex flex-col hover:shadow-red-500/20 hover:border-red-400">
+                    <img src="https://images.alphacoders.com/132/1329581.jpg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/4a1a1a/ff9191?text=Blood+Elf+Relics';" alt="Blood Elf relic hunter" class="rounded-t-lg w-full h-48 object-cover">
+                    <div class="p-4 flex-grow">
+                        <h4 class="text-2xl text-red-400">The Relic Hunter</h4>
+                        <p class="mt-3 text-gray-400">Meet a Blood Elf whose desperation hints at his people's insatiable magical hunger and their need for a new source of power.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- III. New and Revamped Zones -->
+        <section id="zones" class="reveal">
+            <h2 class="text-4xl text-center text-amber-300 section-header">The Changing Lands</h2>
+            <h3 class="text-2xl text-center text-gray-300 mt-4">New Horizons, Ancient Conflicts</h3>
+            <div class="mt-12 space-y-12">
+                <div class="stone-panel rounded-lg grid md:grid-cols-2 gap-0 overflow-hidden">
+                    <div class="p-8">
+                        <h4 class="text-3xl text-green-400">Zone Revamp: Desolace</h4>
+                        <p class="mt-4 text-gray-300 text-lg">In the "Seeds of Redemption" campaign, your actions will have a visible impact, healing the land and transforming grey earth into lush greenery as you cleanse the corruption.</p>
+                    </div>
+                    <img src="https://cdna.artstation.com/p/assets/images/images/017/639/102/large/matthew-park-barrens-final.jpg?1556778643" onerror="this.onerror=null;this.src='https://placehold.co/800x600/556B2F/ffffff?text=Desolace+Reborn';" alt="Desolace Revamp" class="w-full h-full object-cover min-h-[300px]">
+                </div>
+                <div class="stone-panel rounded-lg grid md:grid-cols-2 gap-0 overflow-hidden">
+                     <img src="https://images.alphacoders.com/109/1094895.jpg" onerror="this.onerror=null;this.src='https://placehold.co/800x600/483D8B/ffffff?text=Azshara+at+War';" alt="Azshara Revamp" class="w-full h-full object-cover min-h-[300px] order-last md:order-first">
+                    <div class="p-8">
+                        <h4 class="text-3xl text-purple-400">Zone Revamp: Azshara</h4>
+                        <p class="mt-4 text-gray-300 text-lg">This beautiful zone becomes a dynamic theater of war. A three-way conflict rages between Night Elves, Goblins, and resurgent Naga. Pick a side and fight for control.</p>
+                    </div>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="stone-panel p-8 rounded-lg">
+                        <h4 class="text-3xl text-blue-300">New Zone: Dragonblight Frontier</h4>
+                        <p class="text-lg text-gray-400">(Levels 48-55)</p>
+                        <p class="mt-4 text-gray-300">This coastal Northrend zone serves as a direct precursor to the Lich King's saga, where you'll face Scourge and a corrupted Black Dragon nest raising Frost Wyrms.</p>
+                    </div>
+                    <div class="stone-panel p-8 rounded-lg">
+                        <h4 class="text-3xl text-yellow-200">New Zone: The Glimmering Flats</h4>
+                        <p class="text-lg text-gray-400">(Levels 40-48)</p>
+                        <p class="mt-4 text-gray-300">In this crystallized salt flat south of Tanaris, a full-scale war rages between Gadgetzan Goblins and a new Silithid hive. Act as a mercenary and uncover arcane mysteries.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IV. Faction Leaders -->
+        <section id="leaders" class="reveal">
+            <h2 class="text-4xl text-center text-amber-300 section-header">The Call to War</h2>
+            <h3 class="text-2xl text-center text-gray-300 mt-4">Why We Fight</h3>
+            <div class="grid md:grid-cols-2 gap-x-10 gap-y-8 mt-12">
+                <!-- Leaders will be populated here by JS -->
+                <div id="alliance-leaders" class="space-y-6">
+                    <h3 class="text-3xl text-blue-400 text-center">The Alliance</h3>
+                </div>
+                <div id="horde-leaders" class="space-y-6">
+                    <h3 class="text-3xl text-red-500 text-center">The Horde</h3>
+                </div>
+            </div>
+        </section>
+        
+        <!-- V. The Dark Portal Overture -->
+        <section id="overture" class="reveal">
+            <div class="stone-panel p-8 md:p-12 rounded-lg text-center" style="background: linear-gradient(rgba(10, 0, 0, 0.7), rgba(10, 0, 0, 0.9)), url('https://images.alphacoders.com/712/712574.jpg') center/cover;">
+                <h2 class="text-4xl text-center text-red-500 section-header">The Dark Portal Overture</h2>
+                <h3 class="text-2xl text-center text-gray-300 mt-4">"Nethergarde Stands" World Event</h3>
+                <p class="mt-6 text-lg max-w-4xl mx-auto text-gray-300">
+                    In the final weeks, the Blasted Lands will transform. The sky will burn a sickly red as the Dark Portal pulses with raw power. High-level elite demons will patrol the wastes, making it the most terrifying place on Azeroth.
+                </p>
+                <div class="mt-8">
+                    <h4 class="text-2xl text-amber-300">The Last Hour</h4>
+                    <p class="mt-2 text-gray-300 max-w-3xl mx-auto">In the final hour, a massive, zone-wide invasion begins. Heroes of Azeroth must unite to defend Nethergarde Keep from wave after wave of demons. Success grants a server-wide "Hero of Nethergarde" buff. This transforms waiting into a climactic battle, making your first step through the portal a true victory.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Leader Modal -->
+    <div id="leader-modal" class="modal-backdrop">
+        <div class="modal-content stone-panel rounded-lg max-w-4xl w-full grid md:grid-cols-2 overflow-hidden">
+            <img id="modal-img" src="" class="w-full h-full object-cover min-h-[400px]">
+            <div class="p-8 flex flex-col justify-center">
+                <h3 id="modal-name" class="text-3xl">Leader Name</h3>
+                <p id="modal-quote" class="text-gray-300 text-lg italic mt-4"></p>
+                <button id="modal-close" class="mt-8 self-start px-6 py-2 bg-amber-500 text-black font-bold rounded hover:bg-amber-400 transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-8 bg-black mt-16 border-t border-t-zinc-800">
+        <p class="text-gray-500">A conceptual design. All content derived from provided documents.</p>
+        <p class="text-gray-600 text-sm mt-2">World of Warcraft® and Blizzard Entertainment® are all trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- AUDIO SETUP ---
+            let synth, hoverSynth;
+            try {
+                synth = new Tone.PluckSynth({ attackNoise: 0.5, dampening: 4000, resonance: 0.9 }).toDestination();
+                hoverSynth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.0, release: 0.1 } }).toDestination();
+            } catch (e) {
+                console.error("Could not initialize Tone.js:", e);
+                // Create dummy objects if Tone.js fails
+                synth = { triggerAttackRelease: () => {} };
+                hoverSynth = { triggerAttackRelease: () => {} };
+            }
+            
+            // --- INTERACTIVE ELEMENTS ---
+            const interactiveElements = document.querySelectorAll('a, button, .leader-card');
+            
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    if (Tone.context.state === 'running') {
+                        hoverSynth.triggerAttackRelease('C5', '8n', Tone.now());
+                    }
+                });
+                // Click sound is handled by the specific handlers (modal, links)
+            });
+
+            // Start audio context on first user interaction
+            const startAudio = () => {
+                if (Tone.context.state !== 'running') {
+                    Tone.start();
+                    console.log('Audio context started');
+                }
+                document.body.removeEventListener('click', startAudio);
+                document.body.removeEventListener('keydown', startAudio);
+            };
+            document.body.addEventListener('click', startAudio);
+            document.body.addEventListener('keydown', startAudio);
+
+
+            // --- PARALLAX HERO ---
+            const hero = document.getElementById('hero');
+            window.addEventListener('scroll', () => {
+                const offset = window.pageYOffset;
+                if (hero) {
+                    hero.style.backgroundPositionY = offset * 0.5 + 'px';
+                }
+            });
+
+            // --- STICKY NAVBAR ---
+            const navbar = document.getElementById('navbar');
+            const navObserver = new IntersectionObserver((entries) => {
+                if (hero && !entries[0].isIntersecting) {
+                    navbar.classList.remove('opacity-0', '-translate-y-full');
+                } else {
+                    navbar.classList.add('opacity-0', '-translate-y-full');
+                }
+            }, { threshold: 0.1 });
+            if (hero) {
+                navObserver.observe(hero);
+            }
+
+            // --- SCROLL REVEAL ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // --- LEADER DATA AND MODAL LOGIC ---
+            const leaders = {
+                alliance: [
+                    { name: 'King Varian Wrynn', title: 'via Bolvar Fordragon', quote: "The Dark Portal is a dagger pointed at Stormwind's heart. Your mission is simple: dismantle the Legion's war machine. Cut off the head of the Fel Horde army.", image: 'https://images.alphacoders.com/111/111933.jpg' },
+                    { name: 'King Magni Bronzebeard', quote: "Outland's geology... fascinating! Recover rare minerals and Titan relics from Netherstorm. The past holds the key to a stronger future for Ironforge!", image: 'https://static.wikia.nocookie.net/wowpedia/images/f/f6/Magni_Bronzebeard_HS.jpg/revision/latest?cb=20160424225150' },
+                    { name: 'High Priestess Tyrande Whisperwind', quote: "My hunt for Illidan is relentless. Infiltrate his strongholds. This is not just about defeating a threat—it's about bringing a fallen student to justice.", image: 'https://images.alphacoders.com/112/1128148.jpg' },
+                    { name: 'High Tinker Gelbin Mekkatorque', quote: "The technology of the Naaru and Ethereals is an engineer's dream! Recover Tempest Keep schematics. This could be how we finally retake Gnomeregan!", image: 'https://static.wikia.nocookie.net/wowpedia/images/f/fd/High_Tinker_Mekkatorque_HS.jpg/revision/latest?cb=20141113220038' }
+                ],
+                horde: [
+                    { name: 'Warchief Thrall', quote: "Outland represents our people's tragic history. Go to Thrallmar. Confront the Fel Horde. Help me redeem the legacy of the Orcish people.", image: 'https://images.alphacoders.com/289/289291.jpg' },
+                    { name: 'Lady Sylvanas Windrunner', quote: "This 'Fel Horde'... their rapid corruption is a weapon to be studied. Secure samples. I will reverse-engineer a more potent plague for my war against the Lich King.", image: 'https://images.alphacoders.com/100/1004179.png' },
+                    { name: 'High Chieftain Cairne Bloodhoof', quote: "The spirits of Nagrand cry out. Aid the Mag'har. Calm the enraged elements. Healing the land is as important as winning any war.", image: 'https://static.wikia.nocookie.net/wowpedia/images/8/87/Cairne_Bloodhoof_HS.jpg/revision/latest?cb=20141113220005' },
+                    { name: 'Prince Kael\'thas Sunstrider', title: 'via Rommath', quote: "Prepare the way. The Prince promises a future free from our addiction—a paradise of limitless energy where we will take our rightful place as masters.", image: 'https://images.alphacoders.com/116/1163155.jpg' }
+                ]
+            };
+            
+            const allianceContainer = document.getElementById('alliance-leaders');
+            const hordeContainer = document.getElementById('horde-leaders');
+            const modal = document.getElementById('leader-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalName = document.getElementById('modal-name');
+            const modalQuote = document.getElementById('modal-quote');
+            const modalClose = document.getElementById('modal-close');
+
+            const createLeaderCard = (leader, faction) => {
+                const card = document.createElement('div');
+                card.className = `stone-panel p-4 rounded-lg leader-card ${faction === 'alliance' ? 'alliance-border' : 'horde-border'}`;
+                card.innerHTML = `
+                    <h4 class="text-xl">${leader.name} ${leader.title ? `(${leader.title})` : ''}</h4>
+                    <p class="mt-1 text-gray-400 italic">"${leader.quote.substring(0, 80)}..."</p>
+                `;
+                card.addEventListener('click', () => {
+                    if (Tone.context.state === 'running') synth.triggerAttackRelease('C4', '8n');
+                    modalImg.src = leader.image;
+                    modalImg.onerror = () => { modalImg.src = `https://placehold.co/600x800/111111/eeeeee?text=${leader.name.replace(' ','+')}`; };
+                    modalName.textContent = leader.name;
+                    modalQuote.textContent = `"${leader.quote}"`;
+                    modal.classList.add('visible');
+                });
+                return card;
+            };
+
+            leaders.alliance.forEach(leader => allianceContainer.appendChild(createLeaderCard(leader, 'alliance')));
+            leaders.horde.forEach(leader => hordeContainer.appendChild(createLeaderCard(leader, 'horde')));
+
+            const closeModal = () => {
+                if (Tone.context.state === 'running') synth.triggerAttackRelease('A3', '8n');
+                modal.classList.remove('visible');
+            };
+
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
