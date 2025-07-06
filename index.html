@@ -3,314 +3,451 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Burning Crusade - The Ultimate Polish</title>
-    <!-- Chosen Palette: Wowhead/Blizzard UI -->
-    <!-- Application Structure Plan: The application uses a single-page, hub-and-spoke model to present the document hierarchy. The main screen displays top-level categories as interactive "panels." This reduces initial cognitive load. Clicking the "Classes & Specs" panel, which represents a category with many sub-pages, triggers a JavaScript-driven view change, hiding the main hub and revealing a secondary hub with links for each class. This creates a focused, step-by-step user journey that feels more like an in-game menu than a simple webpage. This interactive, hierarchical structure was chosen to make navigating the 18+ files intuitive and engaging, preventing the user from being overwhelmed by a long, flat list of links, thereby enhancing usability and thematic immersion. -->
-    <!-- Visualization & Content Choices: The primary "visualizations" are the navigation links themselves, styled as interactive elements. Report Info: File list. -> Goal: Inform & Navigate. -> Viz/Presentation: Interactive 'panels' (styled <a> tags). -> Interaction: On hover, panels lift and glow, revealing a descriptive tooltip. Clicking navigates or reveals a sub-menu for the 'Classes' category. -> Justification: This interactive panel metaphor is more thematically aligned with the fantasy source material and in-game UI than a standard text list, turning navigation into an engaging experience. -> Library/Method: HTML, Tailwind CSS for layout, and Vanilla JS for interactivity (view-swapping and tooltips). No chart libraries are needed as there is no quantitative data to display. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <title>The Burning Crusade Classic+ | A Proposal</title>
     <style>
-        @font-face {
-            font-family: 'Friz Quadrata';
-            src: url('https://wow.zamimg.com/css/fonts/blizzard/friz-quadrata-std-medium.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
+        /* --- FONT IMPORT --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=MedievalSharp&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+        /* --- BASE STYLES & ATMOSPHERE --- */
+        :root {
+            --tbc-purple: #8A2BE2;
+            --tbc-green: #1eff00;
+            --tbc-gold: #FFB800; /* Brighter gold */
+            --stone-bg: #121115;
+            --stone-fg: #1c1a22;
+            --text-color: #d1c9bd;
+            --glow-color: rgba(255, 184, 0, 0.75);
+            --border-color: #4a453b;
+            --border-highlight: #7a715f;
         }
 
-        :root {
-            --color-bg: #111217;
-            --color-panel-bg: rgba(28, 30, 38, 0.85);
-            --color-panel-bg-hover: rgba(35, 38, 48, 0.95);
-            --color-panel-border: #4a4a52;
-            --color-text-dim: #a0a0a0;
-            --color-text-bright: #ffffff;
-            --color-wow-gold: #ffd100;
-            --color-wow-blue: #00aeff;
-            --glow-color: var(--color-wow-blue); /* Default glow color */
-            
-            /* Class Colors */
-            --color-fel-green: #1eff00;
-            --color-arcane-purple: #a335ee;
-            --color-holy-gold: #fafad2;
-            --color-druid-orange: #ff7d0a;
-            --color-hunter-green: #abd473;
-            --color-mage-blue: #3fc7eb;
-            --color-paladin-pink: #f58cba;
-            --color-priest-white: #ffffff;
-            --color-rogue-yellow: #fff569;
-            --color-shaman-blue: #0070de;
-            --color-warrior-brown: #c79c6e;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--color-bg);
-            background-image: linear-gradient(rgba(17, 18, 23, 0.92), rgba(17, 18, 23, 1)), url('https://bnetcmsus-a.akamaihd.net/cms/blog_header/2g/2G4412J636L61605744933937.jpg');
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--stone-bg);
+            background-image: url('https://images.blz-contentstack.com/v3/assets/blt3452e3b1141ba455/blt727317248d799f2e/60108151afd4986427137452/Shattrath-City.jpg');
             background-size: cover;
-            background-position: center;
+            background-position: center center;
             background-attachment: fixed;
-            color: var(--color-text-dim);
-            overflow-y: auto;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            overflow-x: hidden;
         }
 
-        .font-friz {
-            font-family: 'Friz Quadrata', serif;
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(12, 10, 15, 0.6) 0%, rgba(12, 10, 15, 0.98) 100%);
+            z-index: 1;
         }
 
-        .main-title {
-            color: var(--color-wow-gold);
-            text-shadow: 0 0 15px rgba(0,0,0,0.8), 1px 1px 2px #000;
-        }
-        
-        .panel {
-            background-color: var(--color-panel-bg);
-            border: 1px solid var(--color-panel-border);
-            border-radius: 8px;
-            backdrop-filter: blur(8px);
-            transition: transform 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out;
-            box-shadow: 0 0 15px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05);
-        }
-
-        .panel:hover {
-            transform: translateY(-5px);
-            border-color: var(--glow-color);
-            box-shadow: 0 5px 25px rgba(0,0,0,0.7), 0 0 10px var(--glow-color);
-            background-color: var(--color-panel-bg-hover);
-        }
-        
-        .panel-icon {
-            transition: color 0.2s ease-out;
-        }
-
-        .panel:hover .panel-icon {
-            color: var(--glow-color);
-        }
-
-        .panel-title {
-            transition: color 0.2s ease-out;
-        }
-
-        .panel:hover .panel-title {
-            color: var(--color-text-bright);
-        }
-        
-        #tooltip {
-            position: fixed;
-            background-color: rgba(10, 8, 18, 0.95);
-            border: 1px solid var(--color-panel-border);
-            color: var(--color-text-dim);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            z-index: 9999;
-            transform: translate(-50%, calc(-100% - 15px));
-            backdrop-filter: blur(5px);
-            max-width: 250px;
+        /* --- HERO HEADER --- */
+        .hero-header {
+            position: relative;
+            z-index: 2;
             text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            border: 2px solid var(--border-color);
+            border-image: linear-gradient(to bottom, var(--border-highlight), var(--border-color)) 1;
+            background: linear-gradient(180deg, rgba(30, 28, 35, 0.8) 0%, rgba(20, 18, 24, 0.9) 100%), url('https://i.imgur.com/3duUs5s.png') no-repeat center center;
+            background-size: cover;
         }
 
-        .hub-container {
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-        }
-
-        .hub-hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.95);
-        }
-
-        .back-button {
-            background-color: var(--color-panel-bg);
-            border: 1px solid var(--color-panel-border);
-            transition: all 0.2s ease-out;
-        }
-
-        .back-button:hover {
-            border-color: var(--color-wow-gold);
-            background-color: var(--color-panel-bg-hover);
-            color: var(--color-text-bright);
-            box-shadow: 0 0 10px var(--color-wow-gold);
+        .hero-header h1 {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 3.5rem;
+            color: var(--tbc-gold);
+            text-shadow: 0 0 15px var(--glow-color), 0 0 5px #000;
+            letter-spacing: 3px;
         }
         
-        .panel[data-glow="fel"]:hover { --glow-color: var(--color-fel-green); }
-        .panel[data-glow="arcane"]:hover { --glow-color: var(--color-arcane-purple); }
-        .panel[data-glow="holy"]:hover { --glow-color: var(--color-holy-gold); }
-        .panel[data-glow="druid"]:hover { --glow-color: var(--color-druid-orange); }
-        .panel[data-glow="hunter"]:hover { --glow-color: var(--color-hunter-green); }
-        .panel[data-glow="mage"]:hover { --glow-color: var(--color-mage-blue); }
-        .panel[data-glow="paladin"]:hover { --glow-color: var(--color-paladin-pink); }
-        .panel[data-glow="priest"]:hover { --glow-color: var(--color-priest-white); }
-        .panel[data-glow="rogue"]:hover { --glow-color: var(--color-rogue-yellow); }
-        .panel[data-glow="shaman"]:hover { --glow-color: var(--color-shaman-blue); }
-        .panel[data-glow="warrior"]:hover { --glow-color: var(--color-warrior-brown); }
+        .hero-header p {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            opacity: 0.9;
+            margin-top: 1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* --- MAIN HUB GRID --- */
+        #proposal-hub {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1400px;
+        }
+        
+        /* --- INTERACTIVE OBJECTS / CARDS --- */
+        .proposal-object {
+            background: linear-gradient(145deg, #2e2a35, #1c1a22);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .proposal-object:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 20px var(--glow-color), inset 0 0 15px rgba(0,0,0,0.3);
+            border-color: var(--tbc-gold);
+        }
+
+        .card-artwork {
+            height: 120px;
+            background-color: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        
+        .card-artwork img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .proposal-object:hover .card-artwork img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            text-align: center;
+            flex-grow: 1;
+        }
+        
+        .proposal-object h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--tbc-gold);
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .proposal-object p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        #object-goblin:hover { border-color: var(--tbc-green); box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
+        #object-legendary:hover { border-color: #ff8000; box-shadow: 0 0 20px rgba(255, 128, 0, 0.6); }
+
+        /* --- SUB-MENUS / MODAL --- */
+        .submenu {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 100;
+            background: linear-gradient(160deg, #25222b, #151318);
+            border: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to top left, var(--border-color), var(--border-highlight), var(--border-color));
+            padding: 1rem;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 0 0 60px rgba(0,0,0,0.9);
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.95);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .submenu.visible {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .submenu-header {
+            padding: 1rem 1.5rem;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .submenu-header h3 {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 2.2rem;
+            color: var(--tbc-gold);
+            text-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .submenu-list {
+            list-style: none;
+            padding: 1.5rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .submenu-list li a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 0.5rem;
+            background: var(--stone-fg);
+            border: 1px solid #333;
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-family: 'Cinzel', serif;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .submenu-list li a:hover {
+            background-color: var(--tbc-gold);
+            color: #000;
+            border-color: var(--tbc-gold);
+            transform: translateX(5px);
+        }
+
+        #submenu-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: brightness(0.6) blur(4px);
+            z-index: 99;
+        }
+        #submenu-backdrop.visible {
+            display: block;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .hero-header { margin-bottom: 2rem; }
+            .hero-header h1 { font-size: 2.5rem; }
+            #proposal-hub { grid-template-columns: 1fr; gap: 1.5rem; }
+            .submenu { width: 95%; }
+        }
+        
+        /* --- AUDIO CONTROLS --- */
+        #audio-control {
+            position: fixed; bottom: 15px; right: 15px; z-index: 101;
+            background: var(--stone-fg); border: 1px solid var(--tbc-gold);
+            color: var(--tbc-gold); padding: 0.5rem; border-radius: 50%;
+            width: 40px; height: 40px; cursor: pointer; display: flex;
+            justify-content: center; align-items: center; font-size: 1.2rem;
+            user-select: none;
+        }
+        #audio-control:hover { background: var(--tbc-gold); color: var(--stone-fg); }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body>
+    <header class="hero-header">
+        <h1>The Burning Crusade: Classic+</h1>
+        <p>A comprehensive reimagining of The Burning Crusade, featuring new content, sweeping class and system overhauls, and a renewed focus on the entire world of Azeroth.</p>
+    </header>
 
-    <div id="tooltip"></div>
+    <main id="proposal-hub">
+        <!-- Card 1: Lore -->
+        <a href="000 - Lore 1-60 and Faction Leaders.html" class="proposal-object" data-sound="hover">
+            <div class="card-artwork"><img src="https://i.imgur.com/rzfVlkY.png" alt="Tome of Ages Artwork"></div>
+            <div class="card-content"><h2>Tome of Ages</h2><p>Revisit the foundational stories and key figures leading the charge into Outland.</p></div>
+        </a>
+        
+        <!-- Card 2: Goblins -->
+        <a href="001 - Goblins.html" id="object-goblin" class="proposal-object" data-sound="hover">
+            <div class="card-artwork"><img src="https://i.imgur.com/yAuJyY7.jpeg" alt="Goblin Artwork"></div>
+            <div class="card-content"><h2>The Goblin Gambit</h2><p>Introducing a new neutral race with explosive potential and enterprising ambitions.</p></div>
+        </a>
 
-    <div class="w-full max-w-7xl mx-auto text-center relative">
-        <header class="my-8 md:my-12">
-            <h1 class="main-title font-friz text-4xl md:text-6xl font-bold tracking-wider">The Ultimate Polish</h1>
-            <p class="text-base md:text-lg text-gray-400">A Comprehensive Redesign for The Burning Crusade</p>
-        </header>
+        <!-- Card 3: Classes -->
+        <div id="object-classes" class="proposal-object" data-sound="hover" data-submenu-target="#codex-menu">
+            <div class="card-artwork"><img src="https://i.imgur.com/45P9CpZ.png" alt="Class Balance Artwork"></div>
+            <div class="card-content"><h2>Codex of War</h2><p>A complete overhaul of class balance, ensuring every specialization has its place.</p></div>
+        </div>
 
-        <main class="pb-8">
-            <div id="main-hub" class="hub-container">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-                    <a href="000 - Lore 1-60 and Faction Leaders.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="holy" data-description="Delve into the foundational lore of Azeroth and the leaders who command its factions.">
-                        <i class="panel-icon fa-solid fa-book-journal-whills fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">Azerothian Archives</h2>
-                    </a>
-                    <a href="001 - Goblins.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="fel" data-description="Explore proposed changes and additions for the cunning and explosive Goblin race.">
-                        <i class="panel-icon fa-solid fa-flask-vial fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">Goblin Contraptions</h2>
-                    </a>
-                    <a href="002 - Classes & Specs - Class Balance.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="arcane" data-description="The core principles and goals behind the proposed class and specialization changes.">
-                        <i class="panel-icon fa-solid fa-scroll fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">Class Balance</h2>
-                    </a>
-                    <a href="#" id="class-hub-trigger" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="arcane" data-description="A deep-dive analysis of all class specializations, proposing balance changes and enhancements.">
-                        <i class="panel-icon fa-solid fa-wand-sparkles fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">Class & Spec Analysis</h2>
-                    </a>
-                    <a href="003 - Raids.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="fel" data-description="Reimagined raid encounters, promising new mechanics and greater challenges in Outland's most dangerous lairs.">
-                        <i class="panel-icon fa-solid fa-dungeon fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">Raid Encounters</h2>
-                    </a>
-                    <a href="004 - Profession System Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="holy" data-description="Overhauls to the profession systems and items to make crafting more meaningful and rewarding.">
-                        <i class="panel-icon fa-solid fa-hammer fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">The Artificer's Corner</h2>
-                    </a>
-                    <a href="005 - Old World Relevance.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="arcane" data-description="Initiatives to ensure the continents of Kalimdor and the Eastern Kingdoms remain relevant and engaging.">
-                        <i class="panel-icon fa-solid fa-map-location-dot fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">Echoes of the Old World</h2>
-                    </a>
-                    <a href="006 - Legendaries & Pinnacle.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="holy" data-description="New paths to acquiring legendary items and pinnacle gear, rewarding dedication and skill.">
-                        <i class="panel-icon fa-solid fa-gavel fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">Legendary Pursuits</h2>
-                    </a>
-                    <a href="007 - Guilds.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="arcane" data-description="Enhancements for guild systems, promoting community and rewarding collective effort.">
-                        <i class="panel-icon fa-solid fa-shield-halved fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">Guild Halls</h2>
-                    </a>
-                    <a href="008 - Factions Balance & QoL - The Shattrath Concordat.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="holy" data-description="Faction balance adjustments and Quality of Life improvements, centered around the Shattrath Concordat.">
-                        <i class="panel-icon fa-solid fa-scale-balanced fa-2x md:fa-3x mb-2 text-gray-400"></i>
-                        <h2 class="panel-title text-sm md:text-base font-bold">Shattrath Diplomacy</h2>
-                    </a>
-                </div>
-            </div>
+        <!-- Card 4: Dungeons & Raids -->
+        <div id="object-dungeons" class="proposal-object" data-sound="hover" data-submenu-target="#dungeon-menu">
+            <div class="card-artwork"><img src="https://i.imgur.com/2Ir5cDA.png" alt="Dungeons and Raids Artwork"></div>
+            <div class="card-content"><h2>Call of the Crusade</h2><p>New challenges await in reimagined dungeons and entirely new raid content.</p></div>
+        </div>
+        
+        <!-- Card 5: Professions -->
+        <div id="object-professions" class="proposal-object" data-sound="hover" data-submenu-target="#artisan-menu">
+            <div class="card-artwork"><img src="https://i.imgur.com/jNThiLh.jpeg" alt="Professions Artwork"></div>
+            <div class="card-content"><h2>Artisan's Almanac</h2><p>A deep crafting system rework, making every profession engaging and profitable.</p></div>
+        </div>
 
-            <div id="class-hub" class="hub-container hub-hidden absolute top-0 left-0 w-full">
-                <button id="back-to-main-hub" class="back-button absolute -top-12 left-1/2 -translate-x-1/2 px-4 py-2 rounded-md text-sm font-semibold text-gray-300">
-                    <i class="fas fa-arrow-left mr-2"></i>Back to Main Hub
-                </button>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-                    <a href="002 - Classes & Specs - Druid Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="druid" data-description="Changes for the masters of shapeshifting and nature's wrath.">
-                        <i class="panel-icon fa-solid fa-leaf fa-2x md:fa-3x mb-2 text-gray-400"></i><h2 class="panel-title text-sm md:text-base font-bold">Druid</h2>
-                    </a>
-                     <a href="002 - Classes & Specs - Hunter Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="hunter" data-description="Adjustments for the master marksmen and their loyal pets.">
-                        <i class="panel-icon fa-solid fa-bullseye fa-2x md:fa-3x mb-2 text-gray-400"></i><h2 class="panel-title text-sm md:text-base font-bold">Hunter</h2>
-                    </a>
-                     <a href="002 - Classes & Specs - Mage Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="mage" data-description="Revisions for the wielders of Arcane, Fire, and Frost magic.">
-                        <i class="panel-icon fa-solid fa-wand-magic-sparkles fa-2x md:fa-3x mb-2 text-gray-400"></i><h2 class="panel-title text-sm md:text-base font-bold">Mage</h2>
-                    </a>
-                     <a href="002 - Classes & Specs - Paladin Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="paladin" data-description="Updates for the holy crusaders and protectors of the Light.">
-                        <i class="panel-icon fa-solid fa-book-bible fa-2x md:fa-3x mb-2 text-gray-400"></i><h2 class="panel-title text-sm md:text-base font-bold">Paladin</h2>
-                    </a>
-                     <a href="002 - Classes & Specs - Priest Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="priest" data-description="Balance passes for the conduits of both Holy light and Shadowy void.">
-                        <i class="panel-icon fa-solid fa-ankh fa-2x md:fa-3x mb-2 text-gray-400"></i><h2 class="panel-title text-sm md:text-base font-bold">Priest</h2>
-                    </a>
-                    <a href="002 - Classes & Specs - Rogue Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="rogue" data-description="Tweaks for the masters of stealth, poison, and assassination.">
-                        <i class="panel-icon fa-solid fa-mask fa-2x md:fa-3x mb-2 text-gray-400"></i><h2 class="panel-title text-sm md:text-base font-bold">Rogue</h2>
-                    </a>
-                    <a href="002 - Classes & Specs - Shaman Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="shaman" data-description="Enhancements for those who command the elements and commune with spirits.">
-                        <i class="panel-icon fa-solid fa-bolt-lightning fa-2x md:fa-3x mb-2 text-gray-400"></i><h2 class="panel-title text-sm md:text-base font-bold">Shaman</h2>
-                    </a>
-                    <a href="002 - Classes & Specs - Warlock Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="fel" data-description="New powers for the summoners of demons and wielders of fel magic.">
-                        <i class="panel-icon fa-solid fa-book-skull fa-2x md:fa-3x mb-2 text-gray-400"></i><h2 class="panel-title text-sm md:text-base font-bold">Warlock</h2>
-                    </a>
-                    <a href="002 - Classes & Specs - Warrior Changes.html" class="panel group flex flex-col items-center justify-center p-4 rounded-lg aspect-square" data-glow="warrior" data-description="Improvements for the masters of arms, fury, and protection.">
-                        <i class="panel-icon fa-solid fa-axe-battle fa-2x md:fa-3x mb-2 text-gray-400"></i><h2 class="panel-title text-sm md:text-base font-bold">Warrior</h2>
-                    </a>
-                </div>
-            </div>
-        </main>
+        <!-- Card 6: Old World -->
+        <a href="005 - Old World Relevance.html" class="proposal-object" data-sound="hover">
+            <div class="card-artwork"><img src="https://i.imgur.com/zPvyOvQ.png" alt="Old World Artwork"></div>
+            <div class="card-content"><h2>A Relevant Realm</h2><p>New reasons to return to Azeroth. Invasions, updated quests, and dynamic events.</p></div>
+        </a>
+        
+        <!-- Card 7: Legendaries -->
+        <a href="006 - Legendaries.html" id="object-legendary" class="proposal-object" data-sound="hover">
+            <div class="card-artwork"><img src="https://i.imgur.com/WcJmiW5.png" alt="Legendaries Artwork"></div>
+            <div class="card-content"><h2>Whispers of Legends</h2><p>Discover new, class-defining legendary items forged in the heart of the Nether.</p></div>
+        </a>
+
+        <!-- Card 8: Pinnacle Quests -->
+        <a href="007 - Pinnacle Quests.html" class="proposal-object" data-sound="hover">
+            <div class="card-artwork"><img src="https://i.imgur.com/HCxgkQU.jpeg" alt="Pinnacle Quests Artwork"></div>
+            <div class="card-content"><h2>The Hero's Journey</h2><p>Epic, class-specific questlines that challenge your mastery and reward you greatly.</p></div>
+        </a>
+        
+        <!-- Card 9: Factions & QoL -->
+        <a href="08 - Factions Balance & QoL - The Shattrath Concordat.html" class="proposal-object" data-sound="hover">
+            <div class="card-artwork"><img src="https://i.imgur.com/O4DUhMo.jpeg" alt="Factions and QoL Artwork"></div>
+            <div class="card-content"><h2>Shattrath Concordat</h2><p>Balancing racials, Paladins and Shamans, and quality of life improvements.</p></div>
+        </a>
+        
+        <!-- Card 10: Guilds -->
+        <a href="009 - Guilds.html" class="proposal-object" data-sound="hover">
+            <div class="card-artwork"><img src="https://i.imgur.com/QXLjF14.jpeg" alt="Guilds Artwork"></div>
+            <div class="card-content"><h2>A Banner United</h2><p>Enhanced guild systems, including shared housing, progression, and rewards.</p></div>
+        </a>
+    </main>
+
+    <!-- SUB-MENUS (Initially Hidden) -->
+    <div id="submenu-backdrop"></div>
+
+    <!-- Codex of War Sub-Menu -->
+    <div id="codex-menu" class="submenu">
+        <div class="submenu-header"><h3>Codex of War: Class Changes</h3></div>
+        <ul class="submenu-list">
+            <li><a href="002 - Classes & Specs - Class Balance.html" data-sound="hover">Overall Class Balance Philosophy</a></li>
+            <li><a href="002 - Classes & Specs - Druid Changes.html" data-sound="hover">Druid Changes</a></li>
+            <li><a href="002 - Classes & Specs - Hunter Changes.html" data-sound="hover">Hunter Changes</a></li>
+            <li><a href="002 - Classes & Specs - Mage Changes.html" data-sound="hover">Mage Changes</a></li>
+            <li><a href="002 - Classes & Specs - Paladin Changes.html" data-sound="hover">Paladin Changes</a></li>
+            <li><a href="002 - Classes & Specs - Priest Changes.html" data-sound="hover">Priest Changes</a></li>
+            <li><a href="002 - Classes & Specs - Rogue Changes.html" data-sound="hover">Rogue Changes</a></li>
+            <li><a href="002 - Classes & Specs - Shaman Changes.html" data-sound="hover">Shaman Changes</a></li>
+            <li><a href="002 - Classes & Specs - Warlock Changes.html" data-sound="hover">Warlock Changes</a></li>
+            <li><a href="002 - Classes & Specs - Warrior Changes.html" data-sound="hover">Warrior Changes</a></li>
+        </ul>
+    </div>
+
+    <!-- Dungeons & Raids Sub-Menu -->
+    <div id="dungeon-menu" class="submenu">
+        <div class="submenu-header"><h3>Call of the Crusade: Content</h3></div>
+        <ul class="submenu-list">
+            <li><a href="003 - Dungeons & Raids - New Content.html" data-sound="hover">New Dungeons & Raids</a></li>
+            <li><a href="003 - Dungeons & Raids - Remade.html" data-sound="hover">Classic Dungeons Remade</a></li>
+        </ul>
+    </div>
+
+    <!-- Professions Sub-Menu -->
+    <div id="artisan-menu" class="submenu">
+        <div class="submenu-header"><h3>The Artisan's Almanac</h3></div>
+        <ul class="submenu-list">
+            <li><a href="004 - Profession System Changes.html" data-sound="hover">Profession System Changes</a></li>
+            <li><a href="004 - Professions Items.html" data-sound="hover">New Profession Items</a></li>
+        </ul>
+    </div>
+    
+    <!-- Audio Control Button -->
+    <div id="audio-control" title="Toggle Music">
+        <span>&#x1F50A;</span> <!-- Speaker Icon -->
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const tooltip = document.getElementById('tooltip');
-            const interactivePanels = document.querySelectorAll('.panel');
+            const backgroundMusic = new Audio('https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample.mp3');
+            backgroundMusic.loop = true;
+            backgroundMusic.volume = 0.15;
+
+            const hoverSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA"); 
+            const clickSound = new Audio("data:audio/wav;base64,UklGRlIAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhBgAAAAEAsub/7w=="); 
             
-            interactivePanels.forEach(panel => {
-                const description = panel.dataset.description;
-                if (!description) return;
+            let isMusicPlaying = false;
+            const audioControl = document.getElementById('audio-control');
+            const audioIcon = audioControl.querySelector('span');
 
-                panel.addEventListener('mouseover', () => {
-                    tooltip.textContent = description;
-                    tooltip.style.opacity = '1';
-                });
-
-                panel.addEventListener('mousemove', (e) => {
-                    tooltip.style.left = `${e.clientX}px`;
-                    tooltip.style.top = `${e.clientY}px`;
-                });
-
-                panel.addEventListener('mouseout', () => {
-                    tooltip.style.opacity = '0';
+            audioControl.addEventListener('click', () => {
+                if (isMusicPlaying) {
+                    backgroundMusic.pause();
+                    audioIcon.innerHTML = '&#x1F507;';
+                    audioControl.title = "Play Music";
+                } else {
+                    backgroundMusic.play().catch(e => console.error("Audio autoplay failed:", e));
+                    audioIcon.innerHTML = '&#x1F50A;';
+                    audioControl.title = "Mute Music";
+                }
+                isMusicPlaying = !isMusicPlaying;
+            });
+            
+            document.querySelectorAll('[data-sound="hover"]').forEach(elem => {
+                elem.addEventListener('mouseenter', () => {
+                    if(isMusicPlaying) {
+                      hoverSound.currentTime = 0;
+                      hoverSound.play().catch(e => {});
+                    }
                 });
             });
 
-            const mainHub = document.getElementById('main-hub');
-            const classHub = document.getElementById('class-hub');
-            const classHubTrigger = document.getElementById('class-hub-trigger');
-            const backButton = document.getElementById('back-to-main-hub');
-            
-            const showClassHub = () => {
-                mainHub.classList.add('hub-hidden');
-                setTimeout(() => {
-                    mainHub.style.display = 'none';
-                    classHub.style.display = 'block';
-                    const headerRect = document.querySelector('header').getBoundingClientRect();
-                    classHub.style.top = `${headerRect.height + 60}px`;
-                    
-                    setTimeout(() => {
-                        classHub.classList.remove('hub-hidden');
-                    }, 50);
-                }, 500);
-            };
+            const submenuBackdrop = document.getElementById('submenu-backdrop');
 
-            const showMainHub = () => {
-                classHub.classList.add('hub-hidden');
-                 setTimeout(() => {
-                    classHub.style.display = 'none';
-                    mainHub.style.display = 'block';
-                     setTimeout(() => {
-                        mainHub.classList.remove('hub-hidden');
-                    }, 50);
-                }, 500);
-            };
-
-            classHubTrigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                showClassHub();
+            document.querySelectorAll('[data-submenu-target]').forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if(isMusicPlaying) {
+                      clickSound.currentTime = 0;
+                      clickSound.play().catch(e => {});
+                    }
+                    const targetMenu = document.querySelector(trigger.dataset.submenuTarget);
+                    if (targetMenu) {
+                        submenuBackdrop.classList.add('visible');
+                        targetMenu.classList.add('visible');
+                    }
+                });
             });
 
-            backButton.addEventListener('click', () => {
-                showMainHub();
+            const closeAllSubmenus = () => {
+                document.querySelectorAll('.submenu.visible').forEach(menu => {
+                    menu.classList.remove('visible');
+                });
+                submenuBackdrop.classList.remove('visible');
+            };
+
+            submenuBackdrop.addEventListener('click', closeAllSubmenus);
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === "Escape") {
+                    closeAllSubmenus();
+                }
             });
         });
     </script>
+
 </body>
 </html>
